@@ -60,12 +60,25 @@ class Model implements IModel
         }
     }
 
-    private function utf8($aString)
+    /**
+     * Convert a value into UTF-8
+     * 
+     * @param mixed $aValue
+     * 
+     * @return mixed same type of input
+     */
+    private function utf8($aValue)
     {
-        if (mb_detect_encoding($aString, 'UTF-8', true) != 'UTF-8') {
-            $aString = utf8_encode($aString);
+        if (is_array($aValue)){
+            foreach ($aValue as $key => $value){
+                $aValue[$key] = $this->utf8($value);
+            }
+            return $aValue;
         }
-        return $aString;
+        if (mb_detect_encoding($aValue, 'UTF-8', true) != 'UTF-8') {
+            return utf8_encode($aValue);
+        }
+        return $aValue;
     }
 
     /**
