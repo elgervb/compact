@@ -1,0 +1,7 @@
+CREATE TABLE "test" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "guid" TEXT,
+    "field1" TEXT,
+    "field2" TEXT,
+    "nr" INTEGER
+);
