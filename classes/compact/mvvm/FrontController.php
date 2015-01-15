@@ -46,6 +46,13 @@ class FrontController
         Context::get()->addHandler(new PageNotFoundHandler());
         Context::get()->addHandler(new InternalErrorHandler());
         
+        // add and init default services
+        $this->addDefaultServices(Context::get());
+        Context::get()->getService(Context::SERVICE_ASSERTION);
+        Context::get()->getService(Context::SERVICE_ERROR);
+        Context::get()->getService(Context::SERVICE_LOGGING);
+        Context::get()->getService(Context::SERVICE_EXCEPTION);
+        
         $className = 'app\AppContext';
         if (class_exists($className, true)) {
             
@@ -58,13 +65,10 @@ class FrontController
             // Log here as the appContext should init logging
             Logger::get()->logFinest('Including site context' . $className);
         }
-        
-        // add and init default services
-        $this->addDefaultServices(Context::get());
-        Context::get()->getService(Context::SERVICE_ASSERTION);
-        Context::get()->getService(Context::SERVICE_ERROR);
-        Context::get()->getService(Context::SERVICE_LOGGING);
-        Context::get()->getService(Context::SERVICE_EXCEPTION);
+        else
+        {
+            Logger::get()->logFinest('No AppContext found');
+        }
     }
 
     /**
