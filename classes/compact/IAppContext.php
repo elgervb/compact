@@ -8,6 +8,8 @@ interface IAppContext
      * Register all custom handlers to be used in this app, using the main context
      *
      * @param \compact\Context $ctx
+     * 
+     * @see Context::addHandler
      */
     public function handlers(\compact\Context $ctx);
     
