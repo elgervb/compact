@@ -36,7 +36,6 @@ class JsonRepository extends FileRepository
             $result = $writer->writeLine(JsonUtils::encode($model) . ',');
         }
         
-        
         $writer->writeLine(']'); // end array notation
         $writer->close();
         
@@ -52,28 +51,21 @@ class JsonRepository extends FileRepository
     {
         $reader = $this->getReader();
         $size = 0;
-        $object = new \ArrayObject();
         // Read whole file
         $reader->open();
+        $modelString = "";
         
         while (! $reader->eof()) {
-            $modelString = $reader->readLine();
-            if ($modelString){
-                if ($modelString !== '[' && $modelString !== ']'){
-                    
-                    $model = JsonUtils::decodeObject(rtrim($modelString, ','), $this->getModelConfiguration()->createModel());
-                    $object->append($model);
-                    $size += strlen($modelString);
-                }
-            }
+            $modelString .= $reader->readLine() . "\n";
         }
         $reader->close();
+        $result = JsonUtils::decode($modelString);
         
-        if ($object->count() > 0) {
+        if ($result->count() > 0) {
             
-            Logger::get()->logFine('Deserializing repository for ' . get_class($this->getModelConfiguration()) . '. Bytes: ' . $size . ', models: ' . $object->count());
+            Logger::get()->logFine('Deserializing repository for ' . get_class($this->getModelConfiguration()) . '. Bytes: ' . $size . ', models: ' . $result->count());
         }
         
-        return $object;
+        return $result;
     }
 }
