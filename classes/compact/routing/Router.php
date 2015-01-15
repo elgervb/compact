@@ -3,6 +3,11 @@ namespace compact\routing;
 
 use compact\logging\Logger;
 
+/**
+ * A regular expression router, which matches routes to a path
+ *
+ * @author Elger van Boxtel
+ */
 class Router
 {
 
@@ -25,17 +30,26 @@ class Router
      *            
      * @return \compact\routing\Router for chaining purposes
      */
-    public function add($aPath, \Closure $aController, $requestType = 'GET')
+    public function add($aPath,\Closure $aController, $requestType = 'GET')
     {
         $routes = $this->getRoutes(strtoupper($requestType));
         $routes->offsetSet($aPath, $aController);
         return $this;
     }
 
+    /**
+     * Returns all routes for a request method, eg.
+     * GET, POST
+     *
+     * @param string $for
+     *            the request method name
+     *            
+     * @return mixed
+     */
     private function getRoutes($for)
     {
         if (! $this->routes->offsetExists($for)) {
-            $this->routes->offsetSet($for, new \ArrayObject);
+            $this->routes->offsetSet($for, new \ArrayObject());
         }
         
         return $this->routes->offsetGet($for);
