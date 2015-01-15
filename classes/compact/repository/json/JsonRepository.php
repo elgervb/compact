@@ -59,7 +59,17 @@ class JsonRepository extends FileRepository
             $modelString .= $reader->readLine() . "\n";
         }
         $reader->close();
-        $result = JsonUtils::decode($modelString);
+        $resultArray = JsonUtils::decode($modelString);
+        
+        // the array result should be converted into models
+        $result = new \ArrayObject();
+        foreach ($resultArray as $modelArray){
+            $model = $this->getModelConfiguration()->createModel();
+            foreach ($modelArray as $key => $value){
+                $model->{$key} = $value;
+            }
+            $result->append($model);
+        }
         
         if ($result->count() > 0) {
             
