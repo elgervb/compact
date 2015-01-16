@@ -33,7 +33,8 @@ class JsonRepository extends FileRepository
         $writer->writeLine('['); // begin array notation
         
         foreach ($aObject as $key => $model) {
-            $result = $writer->writeLine(JsonUtils::encode($model) . ',');
+            $isLast = $model === $aObject->offsetGet($aObject->count() - 1);
+            $result = $writer->writeLine(JsonUtils::encode($model) . ($isLast ? "" : ','));
         }
         
         $writer->writeLine(']'); // end array notation
@@ -63,9 +64,9 @@ class JsonRepository extends FileRepository
         
         // the array result should be converted into models
         $result = new \ArrayObject();
-        foreach ($resultArray as $modelArray){
+        foreach ($resultArray as $modelArray) {
             $model = $this->getModelConfiguration()->createModel();
-            foreach ($modelArray as $key => $value){
+            foreach ($modelArray as $key => $value) {
                 $model->{$key} = $value;
             }
             $result->append($model);
