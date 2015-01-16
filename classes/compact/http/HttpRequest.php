@@ -39,11 +39,15 @@ class HttpRequest
         $this->filters = new \ArrayObject();
         
         // support other HTTP methods (like PUT) and other content types
-        parse_str(file_get_contents("php://input"), $data);
-        $this->data = $data;
+        if ('application/json' === $this->getContentType()) {
+            $this->data = json_decode(file_get_contents("php://input"), true);
+        } else {
+            parse_str(file_get_contents("php://input"), $data);
+            $this->data = $data;
+        }
         
-        if (is_array($data) && count($data) > 0) {
-            foreach ($data as $key => $value) {
+        if (is_array($this->data) && count($this->data) > 0) {
+            foreach ($this->data as $key => $value) {
                 if (! isset($_POST[$key]))
                     $_POST[$key] = $value;
             }
@@ -141,12 +145,30 @@ class HttpRequest
     }
 
     /**
+     * Returns the Content type
+     *
+     * @return string
+     */
+    public function getContentType()
+    {
+        $result = $this->server("CONTENT_TYPE");
+        if (stristr($result, ";")) {
+            $parts = explode(";", $result);
+            return $parts[0];
+        }
+        return $result;
+    }
+
+    /**
      * Returns the data from the request.
      * List post data from the POST request
      */
-    public function getData()
+    public function getData($aKey = null)
     {
-        return $this->data;
+        if ($aKey === null) {
+            return $this->data;
+        }
+        return (is_array($this->data) && isset($this->data[$aKey])) ? $this->filter($this->dataT[$aKey]) : null;
     }
 
     /**
@@ -276,7 +298,8 @@ class HttpRequest
     }
 
     /**
-     * Returns the http request method eg. GET, PUT, POST, etc
+     * Returns the http request method eg.
+     * GET, PUT, POST, etc
      *
      * @return string the http request method (always upper case)
      */

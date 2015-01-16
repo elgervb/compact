@@ -41,5 +41,21 @@ class ModelUtilsTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals("value1", $model->get(TestModel::FIELD1));
     }
+    
+    public function testIsEmpty(){
+        $this->mockPost("nonExistingFieldname", "value1");
+    
+        $model = ModelUtils::getPost(new TestModelConfiguration());
+    
+        $this->assertTrue(ModelUtils::isEmpty($model));
+    }
+    
+    public function testIsNotEmpty(){
+        $this->mockPost(TestModel::FIELD1, "value1");
+    
+        $model = ModelUtils::getPost(new TestModelConfiguration());
+    
+        $this->assertFalse(ModelUtils::isEmpty($model), "Model is not empty, field " . TestModel::FIELD1 .' = ' . $model->get(TestModel::FIELD1));
+    }
    
 }
