@@ -70,7 +70,7 @@ class Router
             $path = preg_replace("/\//", "\\\/", $path);
             if (preg_match('/' . $path . '/', $aPath, $matches)) {
                 
-                Logger::get()->logFine('Found route ' . $path);
+                Logger::get()->logFine('Found route ' . $requestMethod . ' ' . $path);
                 array_shift($matches);
                 return call_user_func_array($controller, $matches);
             }
