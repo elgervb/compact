@@ -63,7 +63,7 @@ class FrontController
             $appCtx->handlers(Context::get());
             
             // Log here as the appContext should init logging
-            Logger::get()->logFinest('Including site context' . $className);
+            Logger::get()->logFinest('Including app context: ' . $className);
         }
         else
         {
