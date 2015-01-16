@@ -8,7 +8,7 @@ namespace compact\utils
     use compact\Context;
     use compact\http\HttpRequest;
     use compact\repository\IModelConfiguration;
-	
+
     class ModelUtils
     {
 
@@ -49,7 +49,7 @@ namespace compact\utils
             }
             
             $fields = $aConfiguration->getFieldNames($model);
-            $request = Context::get()->getHttpContext()->getRequest();
+            $request = Context::get()->http()->getRequest();
             
             foreach ($fields as $field) {
                 self::getPostForField($request, $model, $field, null);
@@ -61,7 +61,7 @@ namespace compact\utils
         public static function getPostForMultipleModels(IModelConfiguration $aConfiguration, IModel $aModel, $aFieldNameToCheck)
         {
             $fields = $aConfiguration->getFieldNames($aModel);
-            $request = Context::get()->getHttpContext()->getRequest();
+            $request = Context::get()->http()->getRequest();
             
             $result = new \ArrayObject();
             $count = $request->countPost($aFieldNameToCheck);
@@ -102,8 +102,9 @@ namespace compact\utils
                             $aModel->{$aFieldName} = $value;
                     }
                 } else {
-                    if ($aRequest->hasPost($aFieldName))
+                    if ($aRequest->hasPost($aFieldName)) {
                         $aModel->{$aFieldName} = $aRequest->getPost($postField, $aIndex);
+                    }
                 }
             } else {
                 if ($isCheckBox) {
@@ -132,7 +133,7 @@ namespace compact\utils
          */
         public static function getPostForSimpleModel(IModel $aModel)
         {
-            $request = Context::get()->getHttpContext()->getRequest();
+            $request = Context::get()->http()->getRequest();
             if (! $request->hasPost()) {
                 return $aModel;
             }
