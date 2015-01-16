@@ -125,7 +125,8 @@ class HttpRequest
             }
         }
         
-        return $result;
+        // when no filters registered, then return the original param
+        return ($result) ? $result : $aParam;
     }
 
     /**
