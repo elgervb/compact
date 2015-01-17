@@ -34,8 +34,8 @@ class HttpStatusHandler implements IHander
         {
             $handler = Context::get()->getHandler( $object->getContent() );
             if ($handler)
-            { /* @var $executer \core\mvc\executer\IActionExecuter */
-                $handler->handle( $object->getContent() );
+            { /* @var $handler \compact\handler\IHander */
+                return $handler->handle( $object->getContent() );
             }
         }
         
