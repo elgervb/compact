@@ -38,7 +38,7 @@ interface IAuthService
      * @param string $password
      *            The plain text password
      *            
-     * @return boolean true if the user could succesfully log in, false if not
+     * @return UserMode|boolean true if the user could succesfully log in, false if not
      */
     public function login($username, $password);
 }
