@@ -15,9 +15,9 @@ class PDOAuthProvider implements ILoginProvider
 
     private $db;
 
-    public function __construct(AbstractPDORepository $aDb)
+    public function __construct(AbstractPDORepository $db)
     {
-        $this->db = $aDb;
+        $this->db = $db;
     }
 
     /**
