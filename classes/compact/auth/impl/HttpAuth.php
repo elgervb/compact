@@ -106,7 +106,7 @@ class HttpAuth implements IAuthService
             $this->user = $this->provider->login($username, $password);
             if ($this->user) {
                 // authenticated !!
-                return true;
+                return $this->user;
             }
             
             $this->sendAuthHeaders();
