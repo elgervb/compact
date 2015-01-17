@@ -6,6 +6,15 @@ namespace compact\handler\impl\http;
  */
 class HttpStatus
 {
+    
+    const STATUS_200_OK = 200;
+    const STATUS_201_CREATED = 201;
+    const STATUS_204_NO_CONTENT = 204;
+    const STATUS_401_UNAUTHORIZED = 401;
+    const STATUS_404_NOT_FOUND = 404;
+    const STATUS_500_INTERNAL_SERVER_ERROR = 500;
+    const STATUS_501_NOT_IMPLEMENTED = 501;
+    
 	private $httpCode;
 	private $content;
 	
