@@ -3,6 +3,7 @@ namespace compact\http;
 
 use compact\logging\Logger;
 use compact\io\writer\BufferedStreamWriter;
+use compact\Context;
 
 /**
  * The Http response
@@ -271,6 +272,38 @@ class HttpResponse
     public function setContentType($contentType)
     {
         $this->contentType = $contentType;
+    }
+    
+    /**
+     * Set the CORS headers
+     *
+     * @see http://www.w3.org/TR/cors/
+     * @see http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/
+     * @see http://enable-cors.org/
+     * @see http://www.html5rocks.com/en/tutorials/cors/
+     */
+    public function setCORSHeaders()
+    {
+        $httpContext = Context::get()->http();
+        $request = $httpContext->getRequest();
+        $response = $httpContext->getResponse();
+    
+        $response->addHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, HEAD, PATCH, OPTIONS');
+    
+        // origin
+        $origin = $request->getHeader('Origin');
+        if ($origin)
+            $response->addHeader('Access-Control-Allow-Origin', $origin); // or use '*' to allow all
+    
+        // custom headers
+        $xHeaders = $request->getHeader('Access-Control-Request-Headers');
+        if ($xHeaders)
+            $response->addHeader('Access-Control-Allow-Headers', $xHeaders);
+    
+        $response->addHeader('Access-Control-Allow-Credentials', 'true');
+    
+        // change preflight request
+        $response->addHeader('Access-Control-Max-Age', 1800);
     }
 
     /**
