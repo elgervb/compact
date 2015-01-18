@@ -23,5 +23,5 @@ interface ILoginProvider
      *            
      * @return UserModel|false The usermodel when successfully logged in or false when the user could nog be found
      */
-    public function login($username, $password = null);
+    public function login($username, $password);
 }
