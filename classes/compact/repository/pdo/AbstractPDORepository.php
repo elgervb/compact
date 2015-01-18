@@ -65,7 +65,7 @@ abstract class AbstractPDORepository implements IModelRepository
 	/**
 	 * Returns a new ISearchCriteria
 	 *
-	 * @return core\mvc\ISearchCriteria
+	 * @return ISearchCriteria
 	 */
 	public function createSearchCriteria()
 	{

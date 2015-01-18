@@ -33,7 +33,6 @@ class PDOAuthProvider implements ILoginProvider
     public function login($aUsername, $aPassword)
     {
         $sc = $this->db->createSearchCriteria();
-        /* @var $sc \compact\repository */
         $sc->where(UserModel::USERNAME, $aUsername);
         $sc->where(UserModel::PASSWORD, $aPassword);
         
