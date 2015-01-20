@@ -32,17 +32,6 @@ class BufferedStreamWriterTest extends \PHPUnit_Framework_TestCase
     {}
 
     /**
-     * @covers compact\io\writer\BufferedStreamWriter::__destruct
-     *
-     * @todo Implement test__destruct().
-     */
-    public function test__destruct()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    /**
      * @covers compact\io\writer\BufferedStreamWriter::close
      *
      * @todo Implement testClose().
