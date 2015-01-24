@@ -97,11 +97,12 @@ class SQLiteRepositoryTest extends \PHPUnit_Framework_TestCase
         // Delete model 2
         $this->object->delete($model2);
         
-        // check for 2 models
+        // check for models 1 and 3
         $models = $this->object->search();
         $this->assertEquals($models->count() , 2, 'Found ' . $models->count() . ' models instead of 2' );
         
-        $this->assertEquals($model1, $models->offsetGet($model1->get(TestModel::ID)));
+        $this->assertEquals($model1->get(TestModel::ID), $models->offsetGet(0)->get(TestModel::ID));
+        $this->assertEquals($model3->get(TestModel::ID), $models->offsetGet(1)->get(TestModel::ID));
     }
     
     /**
