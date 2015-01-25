@@ -10,6 +10,7 @@ use compact\mvvm\IModel;
 use compact\logging\Logger;
 use compact\repository\ISearchCriteria;
 use compact\repository\impl\SearchCriteria;
+use compact\utils\Random;
 
 class FileRepository implements IModelRepository
 {
@@ -179,13 +180,24 @@ class FileRepository implements IModelRepository
      */
     public function save(IModel $aModel)
     {
-        $this->getModelConfiguration()->validate($aModel);
+        $config = $this->getModelConfiguration();
+        $config->validate($aModel);
         
         $store = $this->unserialize();
         
         $pkField = $this->getModelConfiguration()->getKey();
         if (! isset($aModel->{$pkField}) || $aModel->{$pkField} === null) {
             $aModel->{$pkField} = $this->getNextKey($store);
+        }
+        
+        // insert a GUID when config has a guid
+        if (in_array('guid', $config->getFieldNames($aModel))) {
+            $aModel->set('guid', Random::guid());
+        }
+        
+        // insert a GUID when config has a guid
+        if (in_array('timestamp', $config->getFieldNames($aModel))) {
+            $aModel->set('timestamp', time());
         }
         
         $store->append( $aModel);
