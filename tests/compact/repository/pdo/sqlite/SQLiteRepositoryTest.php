@@ -63,6 +63,9 @@ class SQLiteRepositoryTest extends \PHPUnit_Framework_TestCase
         return $model;
     }
     
+    /**
+     * Test that when saving a new model, the GUID field will be automatically filled
+     */
     public function testGUIDGeneration(){
         $model = $this->testSave();
         
