@@ -85,9 +85,14 @@ class SQLiteRepository extends AbstractPDORepository
             $qb = new UpdateQueryBuilder($config, $aModel);
         }
         
-        // insert a GUID when config has guid generation
-        if ($qb instanceof InsertQueryBuilder && strtolower($config->getIdGeneration()) === 'guid') {
-            $aModel->set($config->getKey(), Random::guid());
+        // insert a GUID when config has a guid
+        if (in_array('guid', $config->getFieldNames($aModel))) {
+            $aModel->set('guid', Random::guid());
+        }
+        
+        // insert a GUID when config has a guid
+        if (in_array('timestamp', $config->getFieldNames($aModel))) {
+            $aModel->set('timestamp', time());
         }
         
         $config->validate($aModel);
@@ -113,7 +118,7 @@ class SQLiteRepository extends AbstractPDORepository
         
         $result = $sth->execute();
         
-        if ($qb instanceof InsertQueryBuilder && strtolower($config->getIdGeneration()) === 'id') {
+        if ($qb instanceof InsertQueryBuilder) {
             $id = $pdo->lastInsertId();
             if (! $id) {
                 throw new \PDOException("Last inserted ID was null");

@@ -63,6 +63,12 @@ class SQLiteRepositoryTest extends \PHPUnit_Framework_TestCase
         return $model;
     }
     
+    public function testGUIDGeneration(){
+        $model = $this->testSave();
+        
+        $this->assertTrue($model->get(TestModel::GUID) !== "");
+    }
+    
     /**
      * (non-PHPdoc)
      *

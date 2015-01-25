@@ -18,8 +18,6 @@ class DefaultModelConfiguration implements IModelConfiguration
 
     private $pkFieldName;
 
-    private $idGeneration = "id";
-
     /**
      * Creates a DefaultModelConfiguration
      *
@@ -58,16 +56,6 @@ class DefaultModelConfiguration implements IModelConfiguration
     }
 
     /**
-     * (non-PHPdoc)
-     *
-     * @see compact\repository.IModelConfiguration::getIdGeneration()
-     */
-    public function getIdGeneration()
-    {
-        return $this->idGeneration;
-    }
-
-    /**
      * Returns the name of the underlying model class
      */
     public function getModelClassName()
@@ -82,17 +70,6 @@ class DefaultModelConfiguration implements IModelConfiguration
     public function getKey()
     {
         return $this->pkFieldName;
-    }
-
-    /**
-     * Sets the way the id for the primary key is generated
-     *
-     * @param $aGeneration string
-     *            id or guid
-     */
-    public function setIdGeneration($aGeneration)
-    {
-        $this->idGeneration = $aGeneration;
     }
 
     /**

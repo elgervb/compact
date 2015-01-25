@@ -30,18 +30,7 @@ interface IModelConfiguration
     public function getFieldNames(IModel $aModel);
 
     /**
-     * Returns the way new ID's are generated when inserting a new model (none, guid, id)
-     * Possible choises:
-     * - None: no ID is genereted
-     * - GUID: a GUID is generated and inserted into the PK of the model
-     * - Id: the generated ID is inserted into the PK of the model
-     *
-     * @return string one of the above
-     */
-    public function getIdGeneration();
-
-    /**
-     * Returns the primery key fieldname under which the model can be stored by the repository
+     * Returns the primary key fieldname under which the model can be stored by the repository
      *
      * @return mixed
      */
