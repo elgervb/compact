@@ -3,7 +3,6 @@ namespace compact\validation;
 
 use compact\validation\Validator;
 use compact\logging\Logger;
-use core\validation\ValidationException;
 
 /**
  * Validates if a path is a valid (existing) directory

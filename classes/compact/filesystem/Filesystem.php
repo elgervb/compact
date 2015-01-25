@@ -37,7 +37,7 @@ class Filesystem
      *        
      * @return SplFileInfo
      */
-    public static function copyFile(\SplFileInfo $aOriginal, \SplFileInfo $aTarget, $aIsoverwrite = false)
+    public static function copyFile(\SplFileInfo $aOriginal,\SplFileInfo $aTarget, $aIsoverwrite = false)
     {
         $target = $aTarget;
         
@@ -207,7 +207,7 @@ class Filesystem
      *
      * @throws TFilesystemException when file already exists and overwrite is false
      */
-    public static function moveFile(\SplFileInfo $aOldPath, \SplFileInfo $aNewPath, $aIsOverwrite = false)
+    public static function moveFile(\SplFileInfo $aOldPath,\SplFileInfo $aNewPath, $aIsOverwrite = false)
     {
         $newPath = $aNewPath;
         /**

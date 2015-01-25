@@ -43,14 +43,19 @@ class Download
     }
 
     /**
-     *
-     * @see core\mvc\executer\IDownload::getFileName()
+     * Returns the filename of the downloaded file to be presented to the user
+     * 
+     * @return string
      */
     public function getFileName()
     {
         return $this->downloadFilename;
     }
 
+    /**
+     * Returns the mimetype of the download
+     * @return string
+     */
     public function getMimeType()
     {
         return Mimetype::get()->getType($this->file);

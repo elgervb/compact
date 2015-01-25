@@ -30,7 +30,7 @@ class JsonHandler implements IHander
         assert( '$object instanceof compact\handler\impl\json\Json' );
         
         $result = null;
-        /* @var $object \core\mvc\impl\json\Json */
+        /* @var $object \compact\handler\impl\json\Json */
         $context = Context::get();
         $response = Context::get()->http()->getResponse();
         $response->setContentType(JsonUtils::CONTENT_TYPE);

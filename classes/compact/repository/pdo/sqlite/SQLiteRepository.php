@@ -72,7 +72,7 @@ class SQLiteRepository extends AbstractPDORepository
     /**
      * (non-PHPdoc)
      *
-     * @see core\mvc\impl\repository.AbstractPDORepository::save()
+     * @see compact\repository\pdo.AbstractPDORepository::save()
      */
     public function save(IModel $aModel)
     {
@@ -168,7 +168,7 @@ class SQLiteRepository extends AbstractPDORepository
     /**
      * (non-PHPdoc)
      *
-     * @see core\mvc\impl\repository.AbstractPDORepository::search()
+     * @see compact\repository\pdo.AbstractPDORepository::search()
      */
     public function search(ISearchCriteria $aSc = null)
     {

@@ -15,7 +15,7 @@ class MemoryTranslationBundle implements ITranslationBundle
 	/**
 	 * (non-PHPdoc)
 	 *
-	 * @see core\translations\bundle.ITranslationBundle::getLanguage()
+	 * @see compact\translations\bundle.ITranslationBundle::getLanguage()
 	 */
 	public function getLanguage()
 	{
@@ -24,7 +24,7 @@ class MemoryTranslationBundle implements ITranslationBundle
 	/**
 	 * (non-PHPdoc)
 	 *
-	 * @see core\translations\bundle.ITranslationBundle::getTranslations()
+	 * @see compact\translations\bundle.ITranslationBundle::getTranslations()
 	 */
 	public function getTranslations()
 	{

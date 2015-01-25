@@ -1,5 +1,5 @@
 <?php
-namespace core\validation;
+namespace compact\validation;
 
 use compact\logging\Logger;
 use compact\validation\Validator;

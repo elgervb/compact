@@ -4,7 +4,7 @@ namespace compact\mvvm\impl\validation;
 use compact\mvvm\impl\validation\ModelValidator;
 use compact\mvvm\IModel;
 use compact\translations\Translator;
-use core\validation\ValidationException;
+use compact\validation\ValidationException;
 
 /**
  * Validator to check that model fields are not empty

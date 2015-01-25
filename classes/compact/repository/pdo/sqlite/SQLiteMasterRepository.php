@@ -36,7 +36,7 @@ use compact\mvvm\impl\Model;
         /**
          * (non-PHPdoc)
          *
-         * @see core\mvc\impl\repository.AbstractPDORepository::delete()
+         * @see compact\repository\pdo.AbstractPDORepository::delete()
          */
         public function delete(IModel $aModel)
         {
@@ -45,7 +45,7 @@ use compact\mvvm\impl\Model;
 
         /**
          *
-         * @see core\mvc\impl\repository.AbstractPDORepository::getDriver()
+         * @see compact\repository\pdo.AbstractPDORepository::getDriver()
          * @return \PDO
          */
         public function getDriver()
@@ -68,7 +68,7 @@ use compact\mvvm\impl\Model;
             $sth->bindValue(':tbl_name', $aTableName);
             $sth->execute();
             
-            $result = $sth->fetchObject("core\\mvc\\impl\\repository\\SQLiteMasterModel");
+            $result = $sth->fetchObject("compact\\repository\\pdo\\sqlite\\SQLiteMasterModel");
             
             if ($result === false) {
                 $errorInfo = $sth->errorInfo();
@@ -89,7 +89,7 @@ use compact\mvvm\impl\Model;
         {
             $sth = $this->getDriver()->query("PRAGMA index_list ( " . $aTableName . ")");
             
-            return $sth->fetchObject("core\\mvc\\impl\\repository\\IndexListModel");
+            return $sth->fetchObject("compact\\repository\\pdo\\sqlite\\IndexListModel");
         }
 
         /**
@@ -175,7 +175,7 @@ use compact\mvvm\impl\Model;
         /**
          * (non-PHPdoc)
          *
-         * @see core\mvc\impl\repository.AbstractPDORepository::save()
+         * @see compact\repository\pdo.AbstractPDORepository::save()
          */
         public function save(IModel $aModel)
         {
@@ -185,7 +185,7 @@ use compact\mvvm\impl\Model;
         /**
          * (non-PHPdoc)
          *
-         * @see core\mvc\impl\repository.AbstractPDORepository::saveAll()
+         * @see compact\repository\pdo.AbstractPDORepository::saveAll()
          */
         public function saveAll(\Iterator $aList)
         {

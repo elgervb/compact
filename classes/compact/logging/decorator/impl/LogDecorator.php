@@ -2,6 +2,7 @@
 namespace compact\logging\decorator\impl;
 
 use compact\logging\decorator\IMessageDecorator;
+
 /**
  * Decorates the log with the current time and the IP address of the visitor
  *

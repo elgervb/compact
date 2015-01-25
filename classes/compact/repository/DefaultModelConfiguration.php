@@ -49,7 +49,7 @@ class DefaultModelConfiguration implements IModelConfiguration
 
     /**
      *
-     * @see core\mvc\IModelConfiguration::getFieldNames()
+     * @see compact\repository\IModelConfiguration::getFieldNames()
      */
     public function getFieldNames(IModel $aModel)
     {
@@ -60,7 +60,7 @@ class DefaultModelConfiguration implements IModelConfiguration
     /**
      * (non-PHPdoc)
      *
-     * @see core\mvc.IModelConfiguration::getIdGeneration()
+     * @see compact\repository.IModelConfiguration::getIdGeneration()
      */
     public function getIdGeneration()
     {
@@ -77,7 +77,7 @@ class DefaultModelConfiguration implements IModelConfiguration
 
     /**
      *
-     * @see core\mvc\IModelConfiguration::getKey()
+     * @see compact\repository\IModelConfiguration::getKey()
      */
     public function getKey()
     {
@@ -107,7 +107,7 @@ class DefaultModelConfiguration implements IModelConfiguration
 
     /**
      *
-     * @see core\mvc\IModelConfiguration::validate()
+     * @see compact\repository\IModelConfiguration::validate()
      */
     public function validate(IModel $aModel)
     {

@@ -106,7 +106,7 @@ class Context
      * @param \Closure $aFn
      *            The factory to add the service object
      */
-    public function addService($aFor, \Closure $aFn)
+    public function addService($aFor,\Closure $aFn)
     {
         $this->service->offsetSet($aFor, $aFn);
     }

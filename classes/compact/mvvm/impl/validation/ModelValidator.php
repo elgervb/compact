@@ -20,7 +20,7 @@ abstract class ModelValidator extends Validator
 	final public function validate( $aValidation )
 	{
 		assert( 'is_object($aValidation) /* $aValidation should be an object  */' );
-		assert( '$aValidation instanceof core\mvc\IModel /* $aValidation should be an IModel  */' );
+		assert( '$aValidation instanceof compact\mvvm\IModel /* $aValidation should be an IModel  */' );
 		
 		$this->doValidate( $aValidation );
 	}

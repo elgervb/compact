@@ -4,6 +4,7 @@ namespace compact\logging\decorator\impl;
 use compact\logging\decorator\IMessageDecorator;
 
 /**
+ *
  * @author elger
  */
 class NewLineDecorator implements IMessageDecorator

@@ -3,7 +3,6 @@ namespace compact\validation;
 
 use compact\validation\Validator;
 use compact\logging\Logger;
-use core\validation\ValidationException;
 
 /**
  * Validates an e-mail address

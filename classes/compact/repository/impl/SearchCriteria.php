@@ -32,7 +32,7 @@ class SearchCriteria implements ISearchCriteria
     /**
      * (non-PHPdoc)
      *
-     * @see core\mvc.ISearchCriteria::getWhere()
+     * @see compact\repository.ISearchCriteria::getWhere()
      */
     public function getWhere()
     {
@@ -42,7 +42,7 @@ class SearchCriteria implements ISearchCriteria
     /**
      * (non-PHPdoc)
      *
-     * @see core\mvc.ISearchCriteria::getStartIndex()
+     * @see compact\repository.ISearchCriteria::getStartIndex()
      */
     public function getStartIndex()
     {
@@ -52,7 +52,7 @@ class SearchCriteria implements ISearchCriteria
     /**
      * (non-PHPdoc)
      *
-     * @see core\mvc.ISearchCriteria::getOffset()
+     * @see compact\repository.ISearchCriteria::getOffset()
      */
     public function getOffset()
     {
@@ -62,7 +62,7 @@ class SearchCriteria implements ISearchCriteria
     /**
      * (non-PHPdoc)
      *
-     * @see core\mvc.ISearchCriteria::getOrderBy()
+     * @see compact\repository.ISearchCriteria::getOrderBy()
      */
     public function getOrderBy()
     {
@@ -84,7 +84,7 @@ class SearchCriteria implements ISearchCriteria
     /**
      * (non-PHPdoc)
      *
-     * @see core\mvc.ISearchCriteria::orderBy()
+     * @see compact\repository.ISearchCriteria::orderBy()
      */
     public function orderBy($aOrderBy)
     {
@@ -94,7 +94,7 @@ class SearchCriteria implements ISearchCriteria
     /**
      * (non-PHPdoc)
      *
-     * @see core\mvc.ISearchCriteria::where()
+     * @see compact\repository.ISearchCriteria::where()
      */
     public function where($aField, $aValue)
     {

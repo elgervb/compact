@@ -47,7 +47,7 @@ class MemoryModelRepository implements IModelRepository
 	/**
 	 * (non-PHPdoc)
 	 *
-	 * @see core\mvc.IModelRepository::createSearchCriteria()
+	 * @see IModelRepository.IModelRepository::createSearchCriteria()
 	 */
 	public function createSearchCriteria()
 	{
@@ -97,14 +97,14 @@ class MemoryModelRepository implements IModelRepository
 	/**
 	 * (non-PHPdoc)
 	 *
-	 * @see core\mvc.IModelRepository::saveAll()
+	 * @see IModelRepository.IModelRepository::saveAll()
 	 */
 	public function saveAll( \Iterator $aList )
 	{
 		$result = false;
 		foreach ($aList as $model)
 		{
-			assert( '$model instanceof \core\mvc\IModel' );
+			assert( '$model instanceof \compact\mvvm\IModel' );
 			$result = $this->save( $model );
 		}
 		

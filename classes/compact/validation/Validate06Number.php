@@ -2,7 +2,6 @@
 namespace compact\validation;
 
 use compact\validation\Validator;
-use core\validation\ValidationException;
 use compact\logging\Logger;
 
 /**

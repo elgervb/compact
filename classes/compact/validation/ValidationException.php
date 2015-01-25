@@ -1,5 +1,5 @@
 <?php
-namespace core\validation;
+namespace compact\validation;
 /**
  * Custom exception class
  * @package validation

@@ -4,7 +4,6 @@ namespace compact\validation;
 use compact\validation\Validator;
 use compact\logging\Logger;
 use compact\translations\Translator;
-use core\validation\ValidationException;
 
 /**
  * Validates an telephone number

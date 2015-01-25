@@ -3,7 +3,6 @@ namespace compact\validation;
 
 use compact\validation\Validator;
 use compact\logging\Logger;
-use core\validation\ValidationException;
 
 /**
  * Validates the a given file name does not contain chars that are nog allowed

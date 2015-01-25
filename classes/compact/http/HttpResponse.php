@@ -273,7 +273,7 @@ class HttpResponse
     {
         $this->contentType = $contentType;
     }
-    
+
     /**
      * Set the CORS headers
      *
@@ -287,21 +287,21 @@ class HttpResponse
         $httpContext = Context::get()->http();
         $request = $httpContext->getRequest();
         $response = $httpContext->getResponse();
-    
+        
         $response->addHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, HEAD, PATCH, OPTIONS');
-    
+        
         // origin
         $origin = $request->getHeader('Origin');
         if ($origin)
             $response->addHeader('Access-Control-Allow-Origin', $origin); // or use '*' to allow all
-    
+                                                                              
         // custom headers
         $xHeaders = $request->getHeader('Access-Control-Request-Headers');
         if ($xHeaders)
             $response->addHeader('Access-Control-Allow-Headers', $xHeaders);
-    
+        
         $response->addHeader('Access-Control-Allow-Credentials', 'true');
-    
+        
         // change preflight request
         $response->addHeader('Access-Control-Max-Age', 1800);
     }
