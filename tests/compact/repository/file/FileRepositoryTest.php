@@ -23,7 +23,7 @@ class FileRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new FileRepository(new TestModelConfiguration(), new \SplFileInfo(sys_get_temp_dir() . '/compact-' . Random::alphaNum(10) . '.repository'));
+        $this->object = new FileRepository(new TestModelConfiguration(), new \SplFileInfo(sys_get_temp_dir() . '/compact-file' . Random::alphaNum(10) . '.repository'));
     }
 
     /**
