@@ -22,7 +22,7 @@ class SQLiteRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->filename = sys_get_temp_dir() . '/' . Random::alphaNum(6) . '.sqlite';
+        $this->filename = sys_get_temp_dir() . '/compact-' . Random::alphaNum(6) . '.sqlite';
         $query = file_get_contents(__DIR__ . '/TestModel.sqlite');
         $this->object = new SQLiteRepository(new SQLiteDynamicModelConfiguration('test'), "sqlite:" . $this->filename, $query);
     }

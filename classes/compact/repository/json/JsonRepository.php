@@ -18,7 +18,7 @@ class JsonRepository extends FileRepository
      *
      * @param $aModelConfiguration IModelConfiguration            
      */
-    public function __construct(IModelConfiguration $aModelConfiguration, \SplFileInfo $aFile)
+    public function __construct(IModelConfiguration $aModelConfiguration,\SplFileInfo $aFile)
     {
         parent::__construct($aModelConfiguration, $aFile);
     }
@@ -50,31 +50,38 @@ class JsonRepository extends FileRepository
      */
     protected function unserialize()
     {
+        $result = new \ArrayObject();
         $reader = $this->getReader();
         $size = 0;
-        // Read whole file
-        $reader->open();
         $modelString = "";
         
+        // Read whole file
+        $reader->open();
         while (! $reader->eof()) {
-            $modelString .= $reader->readLine() . "\n";
+            $line = $reader->readLine();
+            
+            if ($line) {
+                $modelString .= $line . "\n";
+            }
         }
         $reader->close();
-        $resultArray = JsonUtils::decode($modelString);
         
-        // the array result should be converted into models
-        $result = new \ArrayObject();
-        foreach ($resultArray as $modelArray) {
-            $model = $this->getModelConfiguration()->createModel();
-            foreach ($modelArray as $key => $value) {
-                $model->{$key} = $value;
+        if ($modelString) {
+            $resultArray = JsonUtils::decode($modelString);
+            
+            // the array result should be converted into models
+            foreach ($resultArray as $modelArray) {
+                $model = $this->getModelConfiguration()->createModel();
+                foreach ($modelArray as $key => $value) {
+                    $model->{$key} = $value;
+                }
+                $result->append($model);
             }
-            $result->append($model);
         }
         
         if ($result->count() > 0) {
             
-            Logger::get()->logFine('Deserializing repository for ' . get_class($this->getModelConfiguration()) . '. Bytes: ' . $size . ', models: ' . $result->count());
+            Logger::get()->logFine('Deserializing repository for ' . get_class($this->getModelConfiguration()) . ' models: ' . $result->count());
         }
         
         return $result;

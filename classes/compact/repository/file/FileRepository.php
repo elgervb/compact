@@ -84,9 +84,16 @@ class FileRepository implements IModelRepository
         if ($store->offsetExists($aModel->{$pkField})) {
             $store->offsetUnset($aModel->{$pkField});
             
+            // rebuild array object to maintain indexes
+            $newStore = new \ArrayObject();
+            foreach ($store as $item)
+            {
+                $newStore->append($item);
+            }
+            
             Logger::get()->logFine("Delete model " . get_class($aModel) . ' pk: ' . $aModel->{$pkField});
             
-            $this->serialize($store);
+            $this->serialize($newStore);
             
             return true;
         }
@@ -181,7 +188,7 @@ class FileRepository implements IModelRepository
             $aModel->{$pkField} = $this->getNextKey($store);
         }
         
-        $store->offsetSet($aModel->{$pkField}, $aModel);
+        $store->append( $aModel);
         
         Logger::get()->logFine("Save model " . get_class($aModel) . ' pk: ' . $aModel->{$pkField});
         
