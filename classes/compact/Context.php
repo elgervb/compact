@@ -13,13 +13,17 @@ use compact\handler\IHander;
 class Context
 {
 
+    const SERVICE_APPCONTEXT = "appcontextService";
+
+    const SERVICE_ASSERTION = "assertionService";
+
+    const SERVICE_AUTH = "authService";
+
     const SERVICE_LOGGING = "loggingService";
 
     const SERVICE_ERROR = "errorHandlingService";
 
     const SERVICE_EXCEPTION = "exceptionHandlingService";
-
-    const SERVICE_ASSERTION = "assertionService";
 
     const SERVICE_LAYOUT = "layoutService";
 
@@ -106,7 +110,7 @@ class Context
      * @param \Closure $aFn
      *            The factory to add the service object
      */
-    public function addService($aFor,\Closure $aFn)
+    public function addService($aFor, \Closure $aFn)
     {
         $this->service->offsetSet($aFor, $aFn);
     }
@@ -145,6 +149,16 @@ class Context
             mb_internal_encoding("UTF-8");
         }
         return self::$INSTANCE;
+    }
+
+    /**
+     * Returns the appcontext
+     * 
+     * @return \compact\IAppContext
+     */
+    public function getAppContext()
+    {
+        return $this->getService(Context::SERVICE_APPCONTEXT);
     }
 
     /**
