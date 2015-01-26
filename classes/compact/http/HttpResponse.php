@@ -297,8 +297,9 @@ class HttpResponse
                                                                               
         // custom headers
         $xHeaders = $request->getHeader('Access-Control-Request-Headers');
-        if ($xHeaders)
+        if ($xHeaders){
             $response->addHeader('Access-Control-Allow-Headers', $xHeaders);
+        }
         
         $response->addHeader('Access-Control-Allow-Credentials', 'true');
         
