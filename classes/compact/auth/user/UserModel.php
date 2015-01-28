@@ -66,4 +66,16 @@ class UserModel
      * Is the user an admin?
      */
     const ADMIN = "admin";
+    
+    /**
+     * The activation GUID when the user is not yet active
+     * @var unknown
+     */
+    const ACTIVATION = "activation";
+    
+    /**
+     * Optional additional context for this user
+     * @var unknown
+     */
+    const CONTEXT = "contact";
 }
