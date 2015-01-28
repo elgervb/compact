@@ -8,6 +8,7 @@ use compact\logging\Logger;
 use compact\utils\Random;
 use compact\repository\ISearchCriteria;
 use compact\repository\pdo\sqlite\SQLiteMasterRepository;
+use compact\validation\ValidationException;
 
 /**
  *
@@ -73,6 +74,9 @@ class SQLiteRepository extends AbstractPDORepository
      * (non-PHPdoc)
      *
      * @see compact\repository\pdo.AbstractPDORepository::save()
+     * 
+     * @throws ValidationException on validation errors
+     * @throws \PDOException on error saving the model
      */
     public function save(IModel $aModel)
     {
