@@ -58,6 +58,11 @@ class FrontController
            
             /* @var $appCtx IAppContext */
             $appCtx = new $className();
+            // register the appcontext as a service
+            Context::get()->addService(Context::SERVICE_APPCONTEXT, function() use($appCtx)
+            {
+                return $appCtx;
+            }); 
             $appCtx->services(Context::get());
             $appCtx->handlers(Context::get());
             $appCtx->routes(Context::get()->router());
@@ -65,11 +70,7 @@ class FrontController
             // Log here as the appContext should init logging
             Logger::get()->logFinest('Including app context: ' . $className);
             
-            // register the appcontext as a service
-            Context::get()->addService(Context::SERVICE_APPCONTEXT, function() use($appCtx)
-            {
-                return $appCtx;
-            });
+            
         } else {
             Logger::get()->logFinest('No AppContext found');
         }
