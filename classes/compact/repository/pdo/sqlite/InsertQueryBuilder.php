@@ -41,7 +41,7 @@ class InsertQueryBuilder
 		$i = 1;
 		foreach ($aFields as $field)
 		{
-			$this->query .= "?";
+			$this->query .= ":".$field;
 			if ($i < count( $aFields ))
 			{
 				$this->query .= ","; // last fields should not end with a ,
