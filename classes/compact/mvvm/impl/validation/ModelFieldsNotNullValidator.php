@@ -5,6 +5,7 @@ use compact\mvvm\impl\validation\ModelValidator;
 use compact\mvvm\IModel;
 use compact\translations\Translator;
 use compact\validation\ValidationException;
+use compact\translations\bundle\ITranslationBundle;
 
 /**
  * Validator to check that model fields are not empty
@@ -43,7 +44,7 @@ class ModelFieldsNotNullValidator extends ModelValidator
 		{
 			if ($aModel->$field === null || ( !is_bool($aModel->$field) && trim( $aModel->$field ) === ""))
 			{
-				$result .= Translator::translate(ITranslationBundle::ERR_VAL_FIELD_NOT_EMPTY, Translator::translate('field.'.$field)) . "\n";
+				$result .= Translator::translate(ITranslationBundle::ERR_VAL_FIELD_NOT_EMPTY, Translator::translate($field)) . "\n";
 			}
 		}
 		
