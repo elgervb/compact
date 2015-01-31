@@ -107,11 +107,13 @@ class SQLiteRepository extends AbstractPDORepository
         $sth = $pdo->prepare($query);
         $i = 1;
         foreach ($config->getFieldNames($aModel) as $fieldName) {
-            if (! $aModel->get($fieldName)) {
+            $value = $aModel->get($fieldName);
+            if (is_null($value)) {
                 $type = \PDO::PARAM_NULL;
             } else {
                 $type = $config->getFieldType($fieldName);
             }
+            
             $sth->bindValue($i ++, $aModel->get($fieldName), $type);
         }
         
@@ -120,7 +122,7 @@ class SQLiteRepository extends AbstractPDORepository
             $sth->bindValue($i ++, $aModel->get($pkName), $config->getFieldType($pkName));
         }
         
-        $result = $sth->execute();
+        $result = $sth->execute();  
         
         if ($qb instanceof InsertQueryBuilder) {
             $id = $pdo->lastInsertId();
@@ -135,6 +137,12 @@ class SQLiteRepository extends AbstractPDORepository
         }
         
         if (! $result) {
+            Logger::get()->logWarning("Unable to save model " . get_class($aModel));
+            ob_start();
+            $sth->debugDumpParams();
+            $debug = ob_get_clean();
+            Logger::get()->logWarning($debug);
+            
             throw new \PDOException("Unable to save model " . get_class($aModel));
         }
         
