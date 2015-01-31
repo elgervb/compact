@@ -63,10 +63,26 @@ class SQLiteRepositoryTest extends \PHPUnit_Framework_TestCase
         return $model;
     }
     
+    
+    public function testInstert0(){
+        $model = $this->object->createModel();
+        TestModel::randomData($model);
+        $model->{TestModel::NUMBER} = 0;
+        
+        // check save went OK
+        $this->assertTrue( $this->object->save($model),  'Saving TestModel failed' );
+        $this->assertTrue(is_numeric($model->get(TestModel::ID)), 'PrimaryKey not filled in ' . $model->get(TestModel::ID));
+        
+        // check for 0 value
+        $this->assertEquals(0, $model->get(TestModel::NUMBER));
+        $this->assertTrue(is_int($model->get(TestModel::NUMBER)) === true);
+        $this->assertTrue($model->get(TestModel::NUMBER) !== null);
+    }
+    
     /**
      * Test that when saving a new model, the GUID field will be automatically filled
      */
-    public function testGUIDGeneration(){
+    public function _testGUIDGeneration(){
         $model = $this->testSave();
         
         $this->assertTrue($model->get(TestModel::GUID) !== "");
