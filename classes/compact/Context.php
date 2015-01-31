@@ -17,7 +17,7 @@ class Context
 
     const SERVICE_ASSERTION = "assertionService";
 
-    const SERVICE_AUTH = "authService";
+    const SERVICE_AUTH= "authService";
 
     const SERVICE_LOGGING = "loggingService";
 
@@ -26,6 +26,7 @@ class Context
     const SERVICE_EXCEPTION = "exceptionHandlingService";
 
     const SERVICE_LAYOUT = "layoutService";
+    const SERVICE_TRANSATOR = "translatorService";
 
     /**
      *

@@ -15,6 +15,8 @@ use compact\handler\impl\InternalErrorHandler;
 use compact\logging\recorder\impl\CompositeLogRecorder;
 use compact\logging\decorator\impl\HtmlLogDecorator;
 use compact\logging\recorder\impl\ScreenRecorder;
+use compact\translations\Translator;
+use compact\translations\bundle\impl\Translations_EN;
 
 class FrontController
 {
@@ -52,6 +54,7 @@ class FrontController
         Context::get()->getService(Context::SERVICE_ERROR);
         Context::get()->getService(Context::SERVICE_LOGGING);
         Context::get()->getService(Context::SERVICE_EXCEPTION);
+        Context::get()->getService(Context::SERVICE_TRANSATOR);
         
         $className = 'app\AppContext';
         if (class_exists($className, true)) {
@@ -102,7 +105,7 @@ class FrontController
             {
                 $path = Context::get()->basePath('/app/logs/app-' . date('Ymd', time()) . '.log');
                 if (Context::get()->isLocal()) {
-                    $recorder = new CompositeLogRecorder(new FileRecorder(new \SplFileInfo($path)), new ScreenRecorder(new HtmlLogDecorator(), Logger::WARNING));
+                    $recorder = new FileRecorder(new \SplFileInfo($path));
                     return new Logger($recorder, Logger::ALL);
                 } else {
                     return new Logger(new BufferedFileRecorder(new \SplFileInfo($path)), Logger::WARNING);
@@ -115,6 +118,16 @@ class FrontController
             $ctx->addService(Context::SERVICE_EXCEPTION, function ()
             {
                 return new ExceptionHandler();
+            });
+        }
+        
+        // translations handler
+        if (! $ctx->getService(Context::SERVICE_TRANSATOR)) {
+            $ctx->addService(Context::SERVICE_TRANSATOR, function ()
+            {
+                $translator = new Translator();
+                $translator->addBundle(new Translations_EN());
+                return $translator;
             });
         }
     }
