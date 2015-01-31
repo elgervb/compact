@@ -3,5 +3,5 @@ CREATE TABLE "test" (
     "guid" TEXT,
     "field1" TEXT,
     "field2" TEXT,
-    "nr" INTEGER
+    "nr" INTEGER NOT NULL
 );
