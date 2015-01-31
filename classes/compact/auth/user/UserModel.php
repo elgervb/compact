@@ -39,36 +39,46 @@ class UserModel
      * Denotes if the user is active or not
      */
     const ACTIVE = "active";
-    
+
     /**
      * The IP address from which the user was registered
+     * 
      * @var unknown
      */
     CONST IP = "ip";
-    
+
     /**
      * The full name of the user
+     * 
      * @var unknown
      */
     const FULL_NAME = "full_name";
-    
+
     /**
      * The email address of the user
      */
     const EMAIL = "email";
-    
+
     /**
      * The timestamp of when the user was added
      */
     const TIMESTAMP = "timestamp";
-    
+
     /**
      * Is the user an admin?
      */
     const ADMIN = "admin";
-    
+
     /**
      * The activation GUID when the user is not yet active
      */
     const ACTIVATION = "activation";
+
+    /**
+     * Encrypt the password using sha1
+     */
+    public function encryptPassword()
+    {
+        $this->{UserModel::PASSWORD} = sha1($this->{UserModel::PASSWORD});
+    }
 }
