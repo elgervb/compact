@@ -30,6 +30,14 @@ class HttpStatusHandler implements IHander
         
         $response->setStatusCode( $object->getHttpCode() );
         
+        // add extra headers
+        $extraHeaders = $object->getExtraHeaders();
+        if ($extraHeaders){
+            foreach ($extraHeaders as $header => $value){
+                $response->addHeader($header, $value);
+            }
+        }
+        
         if ($object->getContent())
         {
             $handler = Context::get()->getHandler( $object->getContent() );
