@@ -77,7 +77,7 @@ class ClassLoader
      */
     public function autoLoad($aClassName)
     {
-        $file = DIRECTORY_SEPARATOR . $this->replaceSlashes($aClassName) . ".php";
+        $file = /*DIRECTORY_SEPARATOR .*/ $this->replaceSlashes($aClassName) . ".php";
         
         // load from stream
         if (function_exists('stream_resolve_include_path')) {
