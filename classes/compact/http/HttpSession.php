@@ -155,8 +155,7 @@ class HttpSession
     /**
      * Return current cache expire
      *
-     * @param
-     *            int
+     * @param int $value The cache expiration in minutes
      */
     public function setCacheExpire($value)
     {
