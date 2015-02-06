@@ -98,6 +98,9 @@ class SearchCriteria implements ISearchCriteria
      */
     public function where($aField, $aValue)
     {
+        if(is_bool($aValue)){
+            $aValue = ($aValue) ? 1:0;
+        }
         $this->where[$aField] = $aValue;
         
         return $this;
