@@ -3,6 +3,7 @@ namespace compact\handler\impl\http;
 
 use compact\handler\IHander;
 use compact\Context;
+use compact\logging\Logger;
 
 /**
  *
@@ -29,6 +30,8 @@ class HttpStatusHandler implements IHander
         $response = Context::get()->http()->getResponse();
         
         $response->setStatusCode( $object->getHttpCode() );
+        
+        Logger::get()->logFine("Got http status " . $object->getHttpCode() );
         
         // add extra headers
         $extraHeaders = $object->getExtraHeaders();
