@@ -33,7 +33,7 @@ class HttpSession
         session_unset();
         session_destroy();
         
-        $this->instance = null;
+        self::$instance = null;
     }
 
     /**
