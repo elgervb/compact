@@ -116,21 +116,21 @@ class FileRepository implements IModelRepository
      *
      * @return int the new primary key
      */
-    private function getNextKey(\ArrayObject $aStore)
+    private function getNextKey(\ArrayObject $aStore, $keyName)
     {
-        if ($aStore->count() == 0) {
+        if ($aStore->count() === 0) {
             return 0;
         } else {
             $pk = 0;
-            foreach ($aStore as $key => $value) {
-                assert('is_int($key)');
-                
-                if ($key > $pk) {
-                    $pk = $key;
-                }
+            foreach ($aStore as $value) {
+               $tmp = $value->{$keyName};
+               
+               if (is_numeric($tmp) && $tmp > $pk){
+                   $pk = $tmp;
+               }
             }
             
-            return ++ $pk;
+            return $pk+1;
         }
     }
 
@@ -187,26 +187,58 @@ class FileRepository implements IModelRepository
         
         $pkField = $this->getModelConfiguration()->getKey();
         if (! isset($aModel->{$pkField}) || $aModel->{$pkField} === null) {
-            $aModel->{$pkField} = $this->getNextKey($store);
+            $aModel->{$pkField} = $this->getNextKey($store, $pkField);
         }
         
         // insert a GUID when config has a guid
-        if (in_array('guid', $config->getFieldNames($aModel))) {
+        if (in_array('guid', $config->getFieldNames($aModel)) && $aModel->isEmpty('guid')) {
             $aModel->set('guid', Random::guid());
         }
         
-        // insert a GUID when config has a guid
-        if (in_array('timestamp', $config->getFieldNames($aModel))) {
+        // insert a timestamp when config has a guid
+        if (in_array('timestamp', $config->getFieldNames($aModel)) && $aModel->isEmpty('timestamp')) {
             $aModel->set('timestamp', time());
         }
         
-        $store->append( $aModel);
-        
+        // Check for update or insert
+        $index = $this->guidExists($aModel->get('guid'), $store);
+        if ( $index === false){
+            // insert
+            Logger::get()->logFine("Insert new model");
+            $store->append( $aModel);
+        }
+        else{
+            // update
+            var_dump($store);
+            Logger::get()->logFine("Update model " . $aModel->get('guid') . ' index: ' . $index);
+            $store->offsetSet($index, $aModel);
+            var_dump($store);
+        }
+            
         Logger::get()->logFine("Save model " . get_class($aModel) . ' pk: ' . $aModel->{$pkField});
         
         return $this->serialize($store);
     }
 
+    /**
+     * Checks if the guid belongs the an existing model
+     * 
+     * @param string $guid
+     * @param \ArrayObject $store
+     * @return mixed|boolean the index of the guid or false if not found
+     */
+    private function guidExists($guid, \ArrayObject $store){
+        
+        foreach ($store as $key => $item){
+            Logger::get()->logFine("Check guid: " . $guid . ' - ' . $item->{'guid'});
+            if ($item->{'guid'} === $guid){
+                Logger::get()->logFine("Found GUID " . $guid . ' = ' . $key);
+                return $key;
+            }
+        }
+        
+        return false;
+    }
     /**
      * (non-PHPdoc)
      *
@@ -222,7 +254,7 @@ class FileRepository implements IModelRepository
             
             $pkField = $this->getModelConfiguration()->getKey();
             if (! isset($model->{$pkField}) || $model->{$pkField} === null) {
-                $model->{$pkField} = $this->getNextKey($store);
+                $model->{$pkField} = $this->getNextKey($store, $pkField);
             }
             
             $store->offsetSet($model->{$pkField}, $model);

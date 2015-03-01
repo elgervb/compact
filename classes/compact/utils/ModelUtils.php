@@ -98,7 +98,7 @@ namespace compact\utils
                 if ($isCheckBox) {
                     if ($aRequest->hasPost($aFieldName)) {
                         $value = $aRequest->getPost($postField, $aIndex);
-                        if ($value != "off"){
+                        if ($value != "off") {
                             $aModel->{$aFieldName} = $value;
                         }
                     }
@@ -111,12 +111,12 @@ namespace compact\utils
                 if ($isCheckBox) {
                     if ($aRequest->hasPost($aFieldName)) {
                         $value = $aRequest->getPost($postField);
-                        if ($value != "off"){
+                        if ($value != "off") {
                             $aModel->{$aFieldName} = $value;
                         }
                     }
                 } else {
-                    if ($aRequest->hasPost($aFieldName)){
+                    if ($aRequest->hasPost($aFieldName)) {
                         $aModel->{$aFieldName} = $aRequest->getPost($postField);
                     }
                 }
@@ -187,13 +187,13 @@ namespace compact\utils
          * Checks if a model contains any data
          *
          * @param $aModel IModel            
-         * @param $aFields array        
+         * @param $aFields array            
          *
          * @return boolean
          */
         public static function isEmpty(IModel $aModel, array $aFields = null)
         {
-            if ($aFields === null){
+            if ($aFields === null) {
                 $aFields = self::getFields($aModel);
             }
             
@@ -222,7 +222,7 @@ namespace compact\utils
                 $aFields = self::getFields($aM2);
             }
             if (ModelUtils::isEmpty($aM2, $aFields))
-                throw new MergeException();
+                throw new MergeException("Could not merge models");
             
             if ($aFields === null)
                 $fields = ModelUtils::getFields($aM2);
@@ -239,5 +239,12 @@ namespace compact\utils
 
     class MergeException extends \Exception
     {
+        /*
+         * (non-PHPdoc) @see Exception::__construct()
+         */
+        public function __construct($message = null, $code = null, $previous = null)
+        {
+            parent::__construct($message, $code, $previous);
+        }
     }
 }

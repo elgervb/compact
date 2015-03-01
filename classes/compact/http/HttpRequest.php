@@ -20,6 +20,8 @@ class HttpRequest
     const METHOD_POST = 'POST';
 
     const METHOD_PUT = 'PUT';
+    
+    const METHOD_PATCH = 'PATCH';
 
     /**
      *
@@ -38,14 +40,14 @@ class HttpRequest
     {
         $this->filters = new \ArrayObject();
         
-        // support other HTTP methods (like PUT) and other content types
+        // support other HTTP methods (like PUT or patch) and other content types
         if ('application/json' === $this->getContentType()) {
             $this->data = json_decode(file_get_contents("php://input"), true);
         } else {
             parse_str(file_get_contents("php://input"), $data);
             $this->data = $data;
         }
-        
+
         if (is_array($this->data) && count($this->data) > 0) {
             foreach ($this->data as $key => $value) {
                 if (! isset($_POST[$key]))
