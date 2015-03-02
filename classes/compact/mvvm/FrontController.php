@@ -17,6 +17,7 @@ use compact\logging\decorator\impl\HtmlLogDecorator;
 use compact\logging\recorder\impl\ScreenRecorder;
 use compact\translations\Translator;
 use compact\translations\bundle\impl\Translations_EN;
+use compact\logging\decorator\impl\UserContextDecorator;
 
 class FrontController
 {
@@ -103,7 +104,7 @@ class FrontController
             {
                 $path = Context::get()->basePath('/app/logs/app-' . date('Ymd', time()) . '.log');
                 if (Context::get()->isLocal()) {
-                    $recorder = new FileRecorder(new \SplFileInfo($path));
+                    $recorder = new FileRecorder(new \SplFileInfo($path), new UserContextDecorator());
                     return new Logger($recorder, Logger::ALL);
                 } else {
                     return new Logger(new BufferedFileRecorder(new \SplFileInfo($path)), Logger::WARNING);
