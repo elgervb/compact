@@ -51,7 +51,7 @@ class JsonRepositoryTest extends \PHPUnit_Framework_TestCase
      * 
      * @return IModel to be used in other tests
      */
-    public function testSave(){
+    public function testSaveInsert(){
         $model = $this->object->createModel();
         TestModel::randomData($model);
         
@@ -64,10 +64,35 @@ class JsonRepositoryTest extends \PHPUnit_Framework_TestCase
     /**
      * (non-PHPdoc)
      *
+     * @covers compact\repository\json\JsonRepository::save()
+     *
+     * @return IModel to be used in other tests
+     */
+    public function testSaveUpdate(){
+        
+        $model1 = $this->testSaveInsert();
+        $model2 = $this->testSaveInsert();
+        
+        $this->assertEquals(2, $this->object->search()->count(), "Expected to find 2 models");
+        
+        // update
+        $model2->set(TestModel::FIELD1, "field1");
+        $this->object->save($model2);
+        
+        // check
+        $models = $this->object->search();
+        $this->assertEquals(2, $models->count(), "Expected to find 2 models");
+        
+        $this->assertEquals("field1", $models->offsetGet(1)->get(TestModel::FIELD1));
+    }
+    
+    /**
+     * (non-PHPdoc)
+     *
      * @covers compact\repository\json\JsonRepository::read()
      */
     public function testRead(){
-        $model = $this->testSave();
+        $model = $this->testSaveInsert();
         
         $read = $this->object->read($model->get(TestModel::ID));
         
@@ -85,9 +110,9 @@ class JsonRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testDelete(){
         // add 3 models
-        $model1 = $this->testSave();
-        $model2 = $this->testSave();
-        $model3 = $this->testSave();
+        $model1 = $this->testSaveInsert();
+        $model2 = $this->testSaveInsert();
+        $model3 = $this->testSaveInsert();
     
         $models = $this->object->search();
         $this->assertEquals($models->count() , 3, 'Found ' . $models->count() . ' models instead of 3' );
@@ -110,10 +135,10 @@ class JsonRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearch(){
         // add 4 models
-        $this->testSave();
-        $this->testSave();
-        $this->testSave();
-        $this->testSave();
+        $this->testSaveInsert();
+        $this->testSaveInsert();
+        $this->testSaveInsert();
+        $this->testSaveInsert();
         
         $models = $this->object->search();
         

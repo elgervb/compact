@@ -209,10 +209,8 @@ class FileRepository implements IModelRepository
         }
         else{
             // update
-            var_dump($store);
             Logger::get()->logFine("Update model " . $aModel->get('guid') . ' index: ' . $index);
             $store->offsetSet($index, $aModel);
-            var_dump($store);
         }
             
         Logger::get()->logFine("Save model " . get_class($aModel) . ' pk: ' . $aModel->{$pkField});
