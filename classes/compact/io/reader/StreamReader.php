@@ -64,7 +64,7 @@ class StreamReader extends AbstractStreamAccesser
         $this->lockRead();
         $content = fread($this->getHandle(), $aLength);
         $this->lockRelease();
-        $this->bytesRead += mb_strlen($content);
+        $this->bytesRead += function_exists('mb_strlen') ? mb_strlen($content) : strlen($content);
         
         return $content;
     }
@@ -79,7 +79,7 @@ class StreamReader extends AbstractStreamAccesser
         $this->lockRead();
         $content = fgets($this->getHandle());
         $this->lockRelease();
-        $this->bytesRead += mb_strlen($content);
+        $this->bytesRead += function_exists('mb_strlen') ? mb_strlen($content) : strlen($content);;
         
         return trim($content, "\r\n");
     }

@@ -69,7 +69,7 @@ class JsonUtils
         }
         
         $json = json_encode($aEncode);
-        Logger::get()->logFinest("Encoding JSON: object length: " . mb_strlen($json));
+        Logger::get()->logFinest("Encoding JSON: object length: " . function_exists('mb_strlen') ? mb_strlen($json) : strlen($json));
         
         return $json;
     }
