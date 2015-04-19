@@ -3,8 +3,6 @@ namespace compact;
 
 use compact\http\HttpContext;
 use compact\routing\Router;
-use compact\handler\AssertHandler;
-use compact\handler\ErrorHandler;
 use compact\logging\Logger;
 use compact\logging\recorder\impl\FileRecorder;
 use compact\handler\ExceptionHandler;
