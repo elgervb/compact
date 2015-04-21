@@ -38,7 +38,7 @@ class FileRepository implements IModelRepository
      *
      * @param $aModelConfiguration IModelConfiguration            
      */
-    public function __construct(IModelConfiguration $aModelConfiguration,\SplFileInfo $aFile)
+    public function __construct(IModelConfiguration $aModelConfiguration, \SplFileInfo $aFile)
     {
         $this->configuration = $aModelConfiguration;
         
@@ -87,8 +87,7 @@ class FileRepository implements IModelRepository
             
             // rebuild array object to maintain indexes
             $newStore = new \ArrayObject();
-            foreach ($store as $item)
-            {
+            foreach ($store as $item) {
                 $newStore->append($item);
             }
             
@@ -118,40 +117,46 @@ class FileRepository implements IModelRepository
      */
     private function getNextKey(\ArrayObject $aStore, $keyName)
     {
-        if ($aStore->count() === 0) {
-            return 0;
+        if ($keyName === "guid") {
+            return Random::guid();
         } else {
-            $pk = 0;
-            foreach ($aStore as $value) {
-               $tmp = $value->{$keyName};
-               
-               if (is_numeric($tmp) && $tmp > $pk){
-                   $pk = $tmp;
-               }
+            if ($aStore->count() === 0) {
+                return 0;
             }
             
-            return $pk+1;
+            $pk = 0;
+            foreach ($aStore as $value) {
+                $tmp = $value->{$keyName};
+                
+                if (is_numeric($tmp) && $tmp > $pk) {
+                    $pk = $tmp;
+                }
+            }
+            
+            return $pk + 1;
         }
     }
 
     /**
      * Returns the underlying reader for subclasses
-     * 
+     *
      * @return \compact\io\reader\StreamReader
      */
-    protected function getReader(){
+    protected function getReader()
+    {
         return $this->reader;
     }
-    
+
     /**
      * Returns the underlying writer for subclasses
-     * 
+     *
      * @return \compact\io\writer\StreamWriter
      */
-    protected function getWriter(){
+    protected function getWriter()
+    {
         return $this->writer;
     }
-    
+
     /**
      * (non-PHPdoc)
      *
@@ -202,17 +207,16 @@ class FileRepository implements IModelRepository
         
         // Check for update or insert
         $index = $this->guidExists($aModel->get('guid'), $store);
-        if ( $index === false){
+        if ($index === false) {
             // insert
             Logger::get()->logFine("Insert new model");
-            $store->append( $aModel);
-        }
-        else{
+            $store->append($aModel);
+        } else {
             // update
             Logger::get()->logFine("Update model " . $aModel->get('guid') . ' index: ' . $index);
             $store->offsetSet($index, $aModel);
         }
-            
+        
         Logger::get()->logFine("Save model " . get_class($aModel) . ' pk: ' . $aModel->{$pkField});
         
         return $this->serialize($store);
@@ -220,16 +224,16 @@ class FileRepository implements IModelRepository
 
     /**
      * Checks if the guid belongs the an existing model
-     * 
-     * @param string $guid
-     * @param \ArrayObject $store
-     * @return mixed|boolean the index of the guid or false if not found
+     *
+     * @param string $guid            
+     * @param \ArrayObject $store            
+     * @return mixed boolean index of the guid or false if not found
      */
-    private function guidExists($guid, \ArrayObject $store){
-        
-        foreach ($store as $key => $item){
+    private function guidExists($guid,\ArrayObject $store)
+    {
+        foreach ($store as $key => $item) {
             Logger::get()->logFine("Check guid: " . $guid . ' - ' . $item->{'guid'});
-            if ($item->{'guid'} === $guid){
+            if ($item->{'guid'} === $guid) {
                 Logger::get()->logFine("Found GUID " . $guid . ' = ' . $key);
                 return $key;
             }
@@ -237,6 +241,7 @@ class FileRepository implements IModelRepository
         
         return false;
     }
+
     /**
      * (non-PHPdoc)
      *
