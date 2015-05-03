@@ -19,10 +19,16 @@ class PageNotFoundHandler implements IHander
      */
     public function handle($object)
     {
+        $view = Context::get()->router()->run(404, 'GET');
+        if (!$view){
+            $view =  "<h1>404 Page not found</h1>";
+        }
+        
+        
         // check for a layout
         $layout = Context::get()->getService(Context::SERVICE_LAYOUT);
         if ($layout) {
-            $layout->{'body'} = "<h1>404 Page not found</h1>";
+            $layout->{'body'} = $view;
             $object = $layout;
         }
         
@@ -33,7 +39,7 @@ class PageNotFoundHandler implements IHander
             $responce->getWriter()->write($object->render());
         }
         else{
-            $responce->getWriter()->write('<h1>404 page not found</h1>');
+            $responce->getWriter()->write($view);
         }
     }
 
