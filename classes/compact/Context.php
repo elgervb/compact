@@ -253,7 +253,7 @@ class Context
      *
      * @return string
      */
-    public static function siteUrl()
+    public static function siteUrl($fnRewriter = null)
     {
         if (! isset(self::$CACHE['siteUrl'])) {
             $request = Context::get()->http()->getRequest();
@@ -274,7 +274,13 @@ class Context
                 $urlPart = substr($urlPart, 0, strlen($urlPart) - 1);
             }
             
-            self::$CACHE['siteUrl'] = $request->getScheme($request) . "://" . $request->getHost($request) . $urlPart;
+            $siteUrl = $request->getScheme($request) . "://" . $request->getHost($request) . $urlPart;
+            if ($fnRewriter instanceof \Closure){
+            	$orig = $siteUrl;
+            	$siteUrl = $fnRewriter($siteUrl);
+            	Logger::get()->logFine("Rewrite siteurl from " . $orig . ' to ' . $siteUrl);
+            }
+            self::$CACHE['siteUrl'] = $siteUrl;
         }
         
         return self::$CACHE['siteUrl'];
