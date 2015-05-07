@@ -39,6 +39,7 @@ class TemplateView implements IView
             }
         }
         $this->{'siteurl'} = Context::siteUrl();
+        $this->{'islocal'} = Context::get()->isLocal();
     }
 
     /**
