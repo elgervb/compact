@@ -142,7 +142,7 @@ class ViewModel extends TemplateView
     private function replaceVars($aContent)
     {
         $viewmodel = $this;
-        return preg_replace_callback("/{(.*)}/Ui", function ($match) use($viewmodel)
+        return preg_replace_callback("/{([a-z0-9]+)}/Ui", function ($match) use($viewmodel)
         {
             // echo '<pre>';print_r($viewmodel);echo'</pre>';
             $var = $match[1];
