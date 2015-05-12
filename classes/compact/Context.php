@@ -224,9 +224,12 @@ class Context
      */
     public function isLocal()
     {
-        return in_array($this->http()
-            ->getRequest()
-            ->getUserIP(), array(
+        $ip = $this->http()->getRequest()->getUserIP();
+        if (substr($ip,0, 4)==='192.'){
+            return true;
+        }
+        
+        return in_array($ip, array(
             "127.0.0.1",
             null,
             '',
@@ -253,7 +256,7 @@ class Context
      *
      * @return string
      */
-    public static function siteUrl($fnRewriter = null)
+    public static function siteUrl()
     {
         if (! isset(self::$CACHE['siteUrl'])) {
             $request = Context::get()->http()->getRequest();
@@ -274,13 +277,7 @@ class Context
                 $urlPart = substr($urlPart, 0, strlen($urlPart) - 1);
             }
             
-            $siteUrl = $request->getScheme($request) . "://" . $request->getHost($request) . $urlPart;
-            if ($fnRewriter instanceof \Closure){
-            	$orig = $siteUrl;
-            	$siteUrl = $fnRewriter($siteUrl);
-            	Logger::get()->logFine("Rewrite siteurl from " . $orig . ' to ' . $siteUrl);
-            }
-            self::$CACHE['siteUrl'] = $siteUrl;
+            self::$CACHE['siteUrl'] = $request->getScheme($request) . "://" . $request->getHost($request) . $urlPart;
         }
         
         return self::$CACHE['siteUrl'];
