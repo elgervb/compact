@@ -18,6 +18,7 @@ use compact\logging\recorder\impl\ScreenRecorder;
 use compact\translations\Translator;
 use compact\translations\bundle\impl\Translations_EN;
 use compact\logging\decorator\impl\UserContextDecorator;
+use compact\handler\impl\http\HttpStatusHandler;
 
 class FrontController
 {
@@ -46,6 +47,7 @@ class FrontController
     {
         // first regster some default handlers, AppContext can override these
         Context::get()->addHandler(new ViewHandler());
+        Context::get()->addHandler(new HttpStatusHandler());
         Context::get()->addHandler(new PageNotFoundHandler());
         Context::get()->addHandler(new InternalErrorHandler());
         
