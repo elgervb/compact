@@ -1,7 +1,7 @@
 <?php
 namespace compact\rss;
 
-use compace\rss\XmlNode;
+use compact\rss\XmlNode;
 /**
  * Rss class
  *
@@ -15,7 +15,7 @@ class Rss
 	private $rssVersion;
 	
 	/**
-	 * @var TRssChannel
+	 * @var RssChannel
 	 */
 	private $channel;
 
@@ -34,11 +34,11 @@ class Rss
 	}
 
 	/**
-	 * Returns the TRssChannel
+	 * Returns the RssChannel
 	 *
-	 * @return TRssChannelModel
+	 * @return RssChannel
 	 */
-	public function getChannelModel()
+	public function getChannel()
 	{
 		return $this->channel;
 	}
@@ -54,7 +54,7 @@ class Rss
 		$rssNode->setXmlVersion( $this->xmlVersion );
 		$rssNode->attr( "version", $this->rssVersion );
 		
-		$channel = $this->getChannelModel();
+		$channel = $this->getChannel();
 		
 		$rssNode->add( $this->channelToXml( $channel ) );
 		

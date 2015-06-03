@@ -1,5 +1,5 @@
 <?php
-namespace compace\rss;
+namespace compact\rss;
 
 use compact\rss\XmlAttributeParser;
 
@@ -276,7 +276,7 @@ class XmlNode
 		// print version info
 		if ($this->xmlVersion !== null)
 		{
-			$result .= '<?xml version="' . $this->xmlVersion . '"?>'."\n";
+			$result .= '<?xml version="' . $this->xmlVersion . '"?>'.PHP_EOL;
 		}
 		
 		$result .= self::OPEN_NODE . $this->tag;

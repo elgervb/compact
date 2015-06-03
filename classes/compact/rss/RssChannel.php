@@ -149,8 +149,6 @@ class RssChannel
 	 */
 	public function __construct()
 	{
-		parent::__construct();
-		
 		$this->items = new \ArrayObject();
 	}
 

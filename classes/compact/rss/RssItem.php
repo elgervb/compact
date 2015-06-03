@@ -73,6 +73,11 @@ class RssItem
 		return null;
 	}
 	
+	/**
+	 * The fieldnames of the rss item
+	 * 
+	 * @return array:
+	 */
 	public function getFieldNames()
 	{
 		$ref = new \ReflectionClass($this);
