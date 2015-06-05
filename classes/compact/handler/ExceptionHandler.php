@@ -35,16 +35,17 @@ class ExceptionHandler
             Logger::get()->logError($aException->getPrevious()
                 ->getTraceAsString());
         }
+        
         $ctx = Context::get();
         $statusCode = $this->getStatusCodeForException($aException);
         $response = $ctx->http()->getResponse();
         $response->setStatusCode($statusCode);
         
-        if ($ctx->isLocal()) {
-            $handler = $ctx->getHandler($statusCode);
-            if ($handler) {
-                $handler->handle($aException);
-            } else {
+        $handler = $ctx->getHandler($statusCode);
+        if ($handler) {
+            $handler->handle($statusCode);
+        } else {
+            if ($ctx->isLocal()) {
                 $response->getWriter()->write('<h1> Exception : </h1><p>' . $aException->getMessage() . '</p> <pre>' . $aException->getTraceAsString() . '</pre>');
             }
         }
