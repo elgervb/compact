@@ -29,6 +29,7 @@ class ViewModel extends TemplateView
      *            The file path to the template
      * @param array $aVars
      *            = null Initial variables
+     * @throws FileNotFoundException when the template path does not exist
      */
     public function __construct($aTemplate, array $aVars = null)
     {
@@ -48,7 +49,7 @@ class ViewModel extends TemplateView
             throw new \Exception("Template " . $aTemplate . " does not exist.");
         }
         $contents = file_get_contents($aTemplate);
-
+        
         $contents = $this->checkExpressions($contents);
         $contents = $this->checkBlocks($contents);
         $contents = $this->replaceVars($contents);
@@ -71,7 +72,7 @@ class ViewModel extends TemplateView
         // if blocks
         $content = preg_replace_callback("/{#([a-z0-9]+)(==|<|>)(.*)}(.*){\/(\g1)}/Usi", function ($match) use($viewmodel)
         {
-//             echo '<pre>';print_r($match);print_r($viewmodel);echo '</pre>';
+            // echo '<pre>';print_r($match);print_r($viewmodel);echo '</pre>';
             
             $left = trim(preg_match("/[\'\"]/", $match[1]) ? substr($match[1], 1, $match[1] - 1) : $viewmodel->{$match[1]});
             $operator = trim($match[2]);
@@ -107,10 +108,10 @@ class ViewModel extends TemplateView
     {
         $viewmodel = $this;
         
-        // if blocks eg. {#islocal}prod stuff...{/islocal}   {#.*}.*{/.*}
+        // if blocks eg. {#islocal}prod stuff...{/islocal} {#.*}.*{/.*}
         $content = preg_replace_callback("/{#([a-zA-Z0-9]+)}(.*){\/\g1}/Usi", function ($match) use($viewmodel)
         {
-//             echo '<pre>';print_r($match);print_r($viewmodel);echo '</pre>';
+            // echo '<pre>';print_r($match);print_r($viewmodel);echo '</pre>';
             
             if ($viewmodel->{$match[1]} != "") {
                 return trim($match[2]);
@@ -121,7 +122,7 @@ class ViewModel extends TemplateView
         // NOT blocks eg. {!islocal}prod stuff...{/islocal}
         $content = preg_replace_callback("/{!([a-zA-Z0-9]+)}(.*){\/\g1}/Usi", function ($match) use($viewmodel)
         {
-            //echo '<pre>';print_r($match);print_r($viewmodel);echo '</pre>';
+            // echo '<pre>';print_r($match);print_r($viewmodel);echo '</pre>';
             
             if ($viewmodel->{$match[1]} == "") {
                 return trim($match[2]);

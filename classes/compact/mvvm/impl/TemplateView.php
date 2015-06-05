@@ -4,6 +4,7 @@ namespace compact\mvvm\impl;
 use compact\Context;
 use compact\mvvm\IView;
 use compact\utils\NullObject;
+use compact\filesystem\exceptions\FileNotFoundException;
 
 /**
  * View with a template
@@ -28,6 +29,8 @@ class TemplateView implements IView
      *            The file path to the template
      * @param array $aVars
      *            = null Initial variables
+     *            
+     * @throws FileNotFoundException when the template path does not exist
      */
     public function __construct($aTemplate, array $aVars = null)
     {
@@ -89,7 +92,7 @@ class TemplateView implements IView
      *            
      * @return string The absolute path to the template
      *        
-     * @throws \Exception when the template path does not exist
+     * @throws FileNotFoundException when the template path does not exist
      */
     protected function convertTemplate($aTemplate)
     {
@@ -97,7 +100,7 @@ class TemplateView implements IView
         if (! is_file($template)) {
             $template = Context::get()->basePath() . "/app/view/" . $template;
             if (! is_file($template)) {
-                throw new \Exception("Template " . $aTemplate . " does not exist.");
+                throw new FileNotFoundException($aTemplate);
             }
         }
         
