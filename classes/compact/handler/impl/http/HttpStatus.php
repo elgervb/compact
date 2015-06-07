@@ -38,7 +38,7 @@ class HttpStatus
      * @param $aHttpCode int
      *            The HTTP status code
      * @param $aContent mixed
-     *            the content to send to the browser
+     *            the content to be used to process by a handler
      */
     public function __construct($aHttpCode, $aContent = null, array $extraHeaders = null)
     {

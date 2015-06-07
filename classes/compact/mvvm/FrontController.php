@@ -9,16 +9,11 @@ use compact\logging\recorder\impl\FileRecorder;
 use compact\handler\ExceptionHandler;
 use compact\logging\recorder\impl\BufferedFileRecorder;
 use compact\handler\impl\ViewHandler;
-use compact\handler\IHander;
-use compact\handler\impl\PageNotFoundHandler;
-use compact\handler\impl\InternalErrorHandler;
-use compact\logging\recorder\impl\CompositeLogRecorder;
-use compact\logging\decorator\impl\HtmlLogDecorator;
-use compact\logging\recorder\impl\ScreenRecorder;
 use compact\translations\Translator;
 use compact\translations\bundle\impl\Translations_EN;
 use compact\logging\decorator\impl\UserContextDecorator;
 use compact\handler\impl\http\HttpStatusHandler;
+use compact\handler\impl\ErrorPageHandler;
 
 class FrontController
 {
@@ -31,12 +26,23 @@ class FrontController
         $this->initApp();
     }
 
-    private function handle404($result = null)
+    /**
+     * Handle the error
+     * 
+     * @param int $statusCode The http status code
+     * 
+     * @param string $result
+     */
+    private function onError($statusCode, $result = null)
     {
         // check for a 404 handler
-        $handler = Context::get()->getHandler(404);
+        $handler = Context::get()->getHandler($statusCode);
+        
+        // first check if there is a system wide handler, otherwise try a route
         if ($handler) {
-            $handler->handle($result);
+            $handler->handle($statusCode);
+        }else{
+        	$view = Context::get()->router()->run($statusCode, 'GET');
         }
     }
 
@@ -48,8 +54,7 @@ class FrontController
         // first regster some default handlers, AppContext can override these
         Context::get()->addHandler(new ViewHandler());
         Context::get()->addHandler(new HttpStatusHandler());
-        Context::get()->addHandler(new PageNotFoundHandler());
-        Context::get()->addHandler(new InternalErrorHandler());
+        Context::get()->addHandler(new ErrorPageHandler());
         
         // add and init default services
         $this->addDefaultServices(Context::get());
@@ -152,13 +157,13 @@ class FrontController
             } else {
                 Logger::get()->logWarning('Could not find a handler for ' . get_class($result));
                 
-                $this->handle404($result);
+                $this->onError(404, $result);
             }
         } else {
             Logger::get()->logWarning('No route found for ' . $request->getRequestMethod() . ' ' . $ctx->http()
                 ->getRequest()
                 ->getPathInfo());
-            $this->handle404($result);
+            $this->onError(404, $result);
         }
         
         $ctx->http()
