@@ -35,20 +35,22 @@ class HttpStatus
     /**
      * Create a new HttpError
      *
-     * @param $aHttpCode int
+     * @param $httpCode int
      *            The HTTP status code
-     * @param $aContent mixed
-     *            the content to be used to process by a handler
+     * @param $content mixed
+     *            the content to be used to process by a handler. In case you want to register a view, then return a <code>IView</code>. When you want to display a 404 (or other) error page, just return the http error number. Make sure you've added a route with the error code in this case.
+     *            
+     * @param $extraHeaders array extra http headers to add to the response
      */
-    public function __construct($aHttpCode, $aContent = null, array $extraHeaders = null)
+    public function __construct($httpCode, $content = null, array $extraHeaders = null)
     {
-        $this->httpCode = $aHttpCode;
-        $this->content = $aContent;
+        $this->httpCode = $httpCode;
+        $this->content = $content;
         $this->extraHeaders = $extraHeaders;
     }
 
     /**
-     * Returns the content
+     * Returns the content object
      *
      * @return mixed or null when not set
      */
