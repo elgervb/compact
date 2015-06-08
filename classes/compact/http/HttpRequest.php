@@ -298,6 +298,16 @@ class HttpRequest
         $url = ($url) ? $url : '/'; // route to root /
         return urldecode(preg_replace("/\/\//", "/", $url));
     }
+    
+    /**
+     * Returns the referrer. The address of the page (if any) which referred the user agent to the current page. This is set by the user agent. Not all user agents will set this, and some provide the ability to modify HTTP_REFERER as a feature. In short, it cannot really be trusted. 
+     *
+     * @return string the referrer
+     */
+    public function getReferrer()
+    {
+        return strtoupper($this->server("HTTP_REFERER"));
+    }
 
     /**
      * Returns the http request method eg.
