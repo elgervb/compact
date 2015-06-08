@@ -160,9 +160,7 @@ class FrontController
                 $this->onError(404, $result);
             }
         } else {
-            Logger::get()->logWarning('No route found for ' . $request->getRequestMethod() . ' ' . $ctx->http()
-                ->getRequest()
-                ->getPathInfo());
+            Logger::get()->logWarning('No route found for ' . $request->getRequestMethod() . ' ' . $ctx->http()->getRequest()->getPathInfo() . ' referrer: ' . $request->getReferrer());
             $this->onError(404, $result);
         }
         
