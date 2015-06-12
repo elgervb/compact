@@ -6,6 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <style>
+      body {
+          color: #333;
+          font: 1em "Open Sans",Helvetica,Arial,sans-serif;
+      }
+      abbr, address, article, aside, audio, b, blockquote, body, canvas, caption, cite, code, dd, del, details, dfn, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, samp, section, small, span, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, ul, var, video {
+          background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+          border: 0 none;
+          box-sizing: border-box;
+          font-size: 100%;
+          margin: 0;
+          outline: 0 none;
+          padding: 0;
+          vertical-align: baseline;
+      }
+      
+      a {
+          background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+          border: 1px solid transparent;
+          color: #4082a0;
+          cursor: pointer;
+          text-decoration: none;
+          transition: all 0.3s ease 0s;
+          vertical-align: baseline;
+          font-size: 100%;
+          margin: 0;
+          padding: 0;
+      }
+      a:hover {
+          border-bottom: 1px solid #4082a0;
+      }
+      p {
+          padding-bottom: 15px;
+      }
+      h1 {
+          font-size: 2.4em;
+          font-weight: lighter;
+          padding: 0 0 25px;
+      }
+      .http-error {
+          margin: 60px auto;
+          min-width: 640px;
+          position: relative;
+          width: 50%;
+      }
+      .http-error .error-code {
+          font-size: 24em;
+          opacity: 0.2;
+          position: absolute;
+          right: 0;
+          top: 45%;
+      }
+    </style>
   </head>
   <body>
     <div class="http-error">
