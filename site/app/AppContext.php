@@ -5,6 +5,7 @@ use compact\IAppContext;
 use compact\Context;
 use compact\routing\Router;
 use compact\mvvm\impl\ViewModel;
+use app\page\IssueController;
 
 /**
  * The Application Context for elgervanboxtel.nl
@@ -23,6 +24,16 @@ class AppContext implements IAppContext
     	$router->add("^/$", function(){
     	    return "ROOT";
     	});
+    	
+	    $router->add("^/issue/(17)$", function($issue){
+	        $c = new IssueController();
+	        return $c->issue($issue);
+	    });
+	    
+        $router->add("^/issue/(17)/redirect$", function($issue){
+            $c = new IssueController();
+            return $c->issue17Redirect();
+        });
     	
 	    /**
 	     * Errors
