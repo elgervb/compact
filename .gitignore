@@ -45,3 +45,4 @@ Temporary Items
 .project
 .settings/org.eclipse.php.core.prefs
 .settings/org.eclipse.php.server.core.phpServersPrefs.prefs
+*.log
