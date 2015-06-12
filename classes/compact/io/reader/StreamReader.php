@@ -10,7 +10,7 @@ use compact\io\AbstractStreamAccesser;
  *          $reader->open();
  *          while (! $reader->eof())
  *          {
- *          $line = $reader->readLine();
+ *              $line = $reader->readLine();
  *          }
  *          $reader->close();
  */
@@ -27,10 +27,8 @@ class StreamReader extends AbstractStreamAccesser
     /**
      * Creates a new StreamReader
      *
-     * @param
-     *            string aStreamUrl The path to the file
-     * @param string $aOpenMode
-     *            = 'rb'
+     * @param string aStreamUrl The path to the file
+     * @param string $aOpenMode = 'rb' read binary
      */
     public function __construct($aStreamUrl, $aOpenMode = 'rb')
     {

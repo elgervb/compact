@@ -289,8 +289,7 @@ abstract class AbstractStreamAccesser
      * SEEK_END - Set position to end-of-file plus offset.
      *
      * @param $aOffset int            
-     * @param $aHow int
-     *            = SEEK_CUR Other options SEEK_SET, SEEK_END
+     * @param $aHow int = SEEK_CUR Other options SEEK_SET, SEEK_END
      *            
      * @return Upon success, returns 0; otherwise, returns -1.
      */
