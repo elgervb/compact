@@ -20,6 +20,7 @@ class AbstractStreamAccesserTest extends \PHPUnit_Framework_TestCase
     {
         // open up this file for reading
         $this->object = new StreamReader(__FILE__);
+        $this->object->open();
     }
 
     /**
@@ -28,61 +29,14 @@ class AbstractStreamAccesserTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        if ($this->object->isOpened()){
-            $this->object->close();
-        }
+        // do not close, but let the destructor of the AbstractStreamAccesser kick in
     }
-
-    /**
-     * @covers compact\io\reader\StreamReader::getBytesRead
-     * @todo Implement testGetBytesRead().
-     */
-    public function testGetBytesRead()
-    {
-        $this->object->readLine();
+    
+    public function testRewind(){
+        $content1 = $this->object->readLine();
+        $this->object->rewind();
+        $content2 = $this->object->readLine();
         
-        
-        
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers compact\io\reader\StreamReader::read
-     * @todo Implement testRead().
-     */
-    public function testRead()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers compact\io\reader\StreamReader::readLine
-     * @todo Implement testReadLine().
-     */
-    public function testReadLine()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers compact\io\reader\StreamReader::readLineAt
-     * @todo Implement testReadLineAt().
-     */
-    public function testReadLineAt()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->assertEquals($content1, $content2, "Contents should be equal");
     }
 }
-?>
