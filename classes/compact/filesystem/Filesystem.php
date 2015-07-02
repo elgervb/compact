@@ -37,7 +37,7 @@ class Filesystem
      *        
      * @return SplFileInfo
      */
-    public static function copyFile(\SplFileInfo $aOriginal,\SplFileInfo $aTarget, $aIsoverwrite = false)
+    public static function copyFile(\SplFileInfo $aOriginal, \SplFileInfo $aTarget, $aIsoverwrite = false)
     {
         $target = $aTarget;
         
@@ -198,6 +198,20 @@ class Filesystem
     }
 
     /**
+     * Returns all files
+     *
+     * @return \Iterator
+     */
+    public function listFiles($recursize = true)
+    {
+        if ($recursize) {
+            return new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS));
+        } else {
+            return new \DirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS);
+        }
+    }
+
+    /**
      * Moves or renames a file
      *
      * @param $newPath SplFileInfo            
@@ -207,7 +221,7 @@ class Filesystem
      *
      * @throws TFilesystemException when file already exists and overwrite is false
      */
-    public static function moveFile(\SplFileInfo $aOldPath,\SplFileInfo $aNewPath, $aIsOverwrite = false)
+    public static function moveFile(\SplFileInfo $aOldPath, \SplFileInfo $aNewPath, $aIsOverwrite = false)
     {
         $newPath = $aNewPath;
         /**
