@@ -30,7 +30,7 @@ class TemplateView implements IView
      * @param array $aVars
      *            = null Initial variables
      *            
-     * @throws FileNotFoundException when the template path does not exist
+     * @throws \compact\filesystem\exceptions\FileNotFoundException when the template path does not exist
      */
     public function __construct($aTemplate, array $aVars = null)
     {
