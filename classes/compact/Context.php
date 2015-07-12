@@ -176,6 +176,8 @@ class Context
                 return $handler;
             }
         }
+        
+        Logger::get()->logWarning("No handler found for " .  get_class($for));
         return null;
     }
 
