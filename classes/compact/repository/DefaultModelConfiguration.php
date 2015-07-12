@@ -22,11 +22,11 @@ class DefaultModelConfiguration implements IModelConfiguration
      * Creates a DefaultModelConfiguration
      *
      * @param $aModelClassName string
-     *            The classname of the model
+     *            The classname of the model (default = compact\mvvm\impl\Model)
      * @param $aPrimaryKeyFieldName string
      *            [optional] The primary key of the model (only used when persisting the model)
      */
-    public function __construct($aModelClassName, $aPrimaryKeyFieldName = "id")
+    public function __construct($aModelClassName = '\compact\mvvm\impl\Model', $aPrimaryKeyFieldName = "id")
     {
         $this->modelClassName = $aModelClassName;
         $this->setPrimaryKeyFieldName($aPrimaryKeyFieldName);
