@@ -1,15 +1,26 @@
 <?php
 namespace compact\handler\impl\download;
 
-use compact\filesystem\exceptions\FileNotFoundException;
-use compact\filesystem\Mimetype;
 
+/**
+ * Serve a string for download
+ * 
+ * @author eaboxt
+ */
 class Download
 {
+    const DOWNLOAD_MIME_TYPE = 'application/octet-stream';
     /**
-     * @var \SplFileInfo The file to be downloaded
+     * The content to serve for download
+     * @var string
      */
-    private $file;
+    private $content;
+    
+    /**
+     * The mime type of the download
+     * @var String
+     */
+    private $mimeType;
 
     /**
      *
@@ -22,24 +33,24 @@ class Download
      *
      * @param \SplFileInfo $aFile            
      * @param string $aFilename
-     *            The filename under which to present the download to the user. Omit to use the real filename.
+     *            The filename under which to present the download to the user.
+     * @param string $mimeType The mimetype to present to the user
      */
-    public function __construct(\SplFileInfo $aFile, $aFilename = null)
+    public function __construct( $content, $filename, $mimeType)
     {
-        if (! $aFile->isFile()) {
-            throw new FileNotFoundException($aFile);
-        }
-        $this->file = $aFile;
-        if ($aFilename === null) {
-            $this->downloadFilename = $aFile->getFilename();
-        } else {
-            $this->downloadFilename = $aFilename;
-        }
+        $this->content = $content;
+        $this->downloadFilename = $filename;
+        $this->mimeType = $mimeType;
     }
 
-    public function getFile()
+    /**
+     * return the content for download
+     * 
+     * @return string|object|\SplFileInfo
+     */
+    public function getContent()
     {
-        return $this->file;
+        return $this->content;
     }
 
     /**
@@ -54,10 +65,11 @@ class Download
 
     /**
      * Returns the mimetype of the download
+     * 
      * @return string
      */
     public function getMimeType()
     {
-        return Mimetype::get()->getType($this->file);
+        return $this->mimeType;
     }
 }

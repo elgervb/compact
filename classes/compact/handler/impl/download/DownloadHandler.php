@@ -27,6 +27,12 @@ class DownloadHandler implements IHander
     public function handle($object)
     {
         $d = new FileDownloader(Context::get()->http()->getResponse());
-        $d->serveFile($object->getFile(), $object->getFileName(), $object->getMimeType());
+        $download = $object->getContent();
+        if ($download instanceof \SplFileInfo){
+            $d->serveFile($download, $object->getFileName(), $object->getMimeType());
+        }
+        else {
+            $d->serve($download, $object->getFileName(), $object->getMimeType());
+        }
     }
 }

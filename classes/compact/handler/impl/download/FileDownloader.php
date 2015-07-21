@@ -5,13 +5,14 @@ use compact\http\HttpResponse;
 use compact\logging\Logger;
 use compact\filesystem\Mimetype;
 use compact\io\reader\StreamReader;
+use compact\handler\IHander;
 
 /**
  * Serve a file for download
  *
  * @author elger
  */
-class FileDownloader implements IHander
+class FileDownloader
 {
 
     /**
