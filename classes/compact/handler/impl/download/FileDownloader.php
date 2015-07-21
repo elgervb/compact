@@ -7,11 +7,11 @@ use compact\filesystem\Mimetype;
 use compact\io\reader\StreamReader;
 
 /**
- * Download a file
+ * Serve a file for download
  *
  * @author elger
  */
-class FileDownload
+class FileDownloader implements IHander
 {
 
     /**

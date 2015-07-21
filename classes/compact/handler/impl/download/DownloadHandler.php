@@ -3,7 +3,7 @@ namespace compact\handler\impl\download;
 
 use compact\handler\IHander;
 use compact\handler\impl\download\Download;
-use compact\handler\impl\download\FileDownload;
+use compact\handler\impl\download\FileDownloader;
 use compact\Context;
 
 class DownloadHandler implements IHander
@@ -26,7 +26,7 @@ class DownloadHandler implements IHander
      */
     public function handle($object)
     {
-        $d = new FileDownload(Context::get()->http()->getResponse());
+        $d = new FileDownloader(Context::get()->http()->getResponse());
         $d->serveFile($object->getFile(), $object->getFileName(), $object->getMimeType());
     }
 }
