@@ -69,7 +69,7 @@ class Model implements IModel
      */
     private function utf8($aValue)
     {
-        if (is_array($aValue)){
+        if (is_array($aValue) || is_object($aValue)){
             foreach ($aValue as $key => $value){
                 $aValue[$key] = $this->utf8($value);
             }
