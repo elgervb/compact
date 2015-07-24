@@ -71,7 +71,13 @@ class Model implements IModel
     {
         if (is_array($aValue) || is_object($aValue)){
             foreach ($aValue as $key => $value){
-                $aValue[$key] = $this->utf8($value);
+                // handle both objects and arrays
+                if (is_object($aValue)){
+                    $aValue->{$key} = $this->utf8($value);
+                }
+                else{
+                    $aValue[$key] = $this->utf8($value);
+                }
             }
             return $aValue;
         }
