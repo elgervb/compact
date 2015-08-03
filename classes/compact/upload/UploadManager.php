@@ -111,16 +111,6 @@ class UploadManager
 	{
 		$list = new \ArrayObject();
 		
-		// no upload dir set, return the uploads from the upload dir without moving them
-		if (null === $this->options->getUploadDir())
-		{
-			foreach ($this->files as $file)
-			{
-				$list->append( $file );
-			}
-			return $list;
-		}
-		
 		try
 		{
 			$index = 1;
@@ -133,7 +123,10 @@ class UploadManager
 				    
 				    $file = $fnEach($file, $file->getOriginalFilename(), $index);
 				    assert('$file === null || $file instanceof \SplFileInfo');
-				    $list->append($file);
+				    
+				    if ($file){
+				        $list->append($file);
+				    }
 				}
 				else{
 				    $list->append( $uploaded );
@@ -232,26 +225,14 @@ class UploadManager
 	 */
 	private function uploadFile( UploadedFile $aFile, $aIndex )
 	{
-		$renameCommand = $this->options->getRenameCommand();
-		
-		/* @var $command \compact\upload\strategy\UploadCommand */
-		foreach ($this->options->getUploadCommands() as $command)
-		{
-			$command->execute( $aFile, $aIndex );
-		}
-		
-		$filename = "";
-		if ($renameCommand !== null)
-		{
-			$filename = $renameCommand->execute( $aFile, $aIndex );
-		}
-		else
-		{
-			$filename = $aFile->getOriginalFilename();
-		}
-
-		$file = $aFile->move( new \SplFileInfo( $this->options->getUploadDir() . DIRECTORY_SEPARATOR . $filename ), $this->options->getAllowOverwrite() );
-		return UploadedFile::createFrom($aFile, $file);
+		 if ($this->options->getUploadDir()){
+		    $filename = $aFile->getOriginalFilename();
+		     
+    		$file = $aFile->move( new \SplFileInfo( $this->options->getUploadDir() . DIRECTORY_SEPARATOR . $filename ), $this->options->getAllowOverwrite() );
+    		return UploadedFile::createFrom($aFile, $file);
+		 }
+		 
+		 return $aFile;
 	}
 	
 	/**
