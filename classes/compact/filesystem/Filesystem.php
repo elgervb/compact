@@ -35,7 +35,7 @@ class Filesystem
      *            
      * @throws FilesystemException When original file or directory does not exists or when destination already exists and overwrite is false
      *        
-     * @return SplFileInfo
+     * @return SplFileInfo the newly copied image
      */
     public static function copyFile(\SplFileInfo $aOriginal, \SplFileInfo $aTarget, $aIsoverwrite = false)
     {
