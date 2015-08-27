@@ -92,6 +92,11 @@ class UploadOptions
 	 */
 	public function getMaxSize()
 	{
+	    // replace shorthand  20M = 20000000 bytes
+		$systemSize = str_replace('M', '000000', ini_get('upload_max_filesize'));
+	    if ($systemSize < $this->maxSize){
+	        return $systemSize;
+	    }
 		return $this->maxSize;
 	}
 	
@@ -111,20 +116,26 @@ class UploadOptions
 	public function getMimetypes()
 	{
 		return $this->allowedMimetypes;
+		
 	}
 	
 	/**
 	 *
 	 * @param $allowOverwrite boolean
+	 * 
+	 * @return UploadOptions
 	 */
 	public function setAllowOverwrite( $allowOverwrite )
 	{
 		$this->allowOverwrite = $allowOverwrite;
+		return $this;
 	}
 	
 	/**
 	 *
 	 * @param aMaxFiless int
+	 * 
+	 * @return UploadOptions
 	 */
 	public function setMaxFiles( $aMaxFiles )
 	{
@@ -135,26 +146,41 @@ class UploadOptions
 		}
 		
 		$this->maxFiles = $aMaxFiles;
+		return $this;
 	}
 	
 	/**
 	 * Sets the max upload size for this upload batch (all size together)
 	 *
 	 * @param $maxTotalSize int in bytes
+	 * 
+	 * @return UploadOptions
 	 */
 	public function setMaxTotalSize( $maxTotalSize )
 	{
 		$this->maxTotalSize = $maxTotalSize;
+		return $this;
 	}
 	
 	/**
 	 * Sets the max file size (in bytes) for each upload
 	 *
 	 * @param $maxSize int the max size in bytes
+	 * 
+	 * @return UploadOptions
 	 */
-	public function setMaxSize( $aMaxSize )
+	public function setMaxSize( $maxSize )
 	{
-		$this->maxSize = $aMaxSize;
+		$this->maxSize = $maxSize;
+		
+		// replace shorthand  20M = 20000000 bytes
+		$systemSize = str_replace('M', '000000', ini_get('upload_max_filesize'));
+		
+		if ($systemSize < $maxSize){
+		    ini_set('upload_max_filesize', $maxSize);
+		    $this->maxSize = str_replace('M', '000000', ini_get('upload_max_filesize'));
+		}
+		return $this;
 	}
 	
 	/**
@@ -162,17 +188,22 @@ class UploadOptions
 	 * @param $allowedMimetypes string
 	 *
 	 * @see addMimetype(string $aMimetype)
+	 * 
+	 * @return UploadOptions
 	 */
 	public function setMimetype( $aMimetype )
 	{
 		assert( 'is_string($aMimetype)' );
 		
 		$this->addMimetype( $aMimetype );
+		return $this;
 	}
 	
 	/**
 	 *
 	 * @param $allowedMimetypes array
+	 * 
+	 * @return UploadOptions
 	 */
 	public function setMimetypes( array $aMimetypes )
 	{
@@ -187,15 +218,20 @@ class UploadOptions
 				$this->addMimetype( $mimetype );
 			}
 		}
+		
+		return $this;
 	}
 	
 	
 	/**
 	 *
 	 * @param $uploadDir \SplFileInfo
+	 * 
+	 * @return UploadOptions
 	 */
 	public function setUploadDir(\SplFileInfo $uploadDir )
 	{
 		$this->uploadDir = $uploadDir;
+		return $this;
 	}
 }
