@@ -209,15 +209,18 @@ class HttpRequest
     }
 
     /**
-     * Returns a HTTP GET variable.
+     * Returns a HTTP GET variable or optionally get all get requests
      *
      * @param $aGetVar string
      *            The HTTP GET variable to return: $_GET['getKey']
      *            
      * @return string The HTTP GET variable or null when it does not exist
      */
-    public function getGet($aGetKey)
+    public function getGet($aGetKey = null)
     {
+        if (!$aGetKey){
+            return $this->filter($_GET);
+        }
         return isset($_GET[$aGetKey]) ? $this->filter($_GET[$aGetKey]) : null;
     }
 
