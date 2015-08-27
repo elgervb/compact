@@ -4,8 +4,7 @@ namespace compact\upload;
 class UploadedFile extends \SplFileInfo
 {
 	/**
-	 *
-	 * @var string
+	 * @var int one of the UPLOAD_ERR_** constants
 	 */
 	private $error;
 	
