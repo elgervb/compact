@@ -61,10 +61,10 @@ class UploadManager
 					{
 						// Check for empty tmp_name, can occur when user does not
 						// fill in the file input and submits the form
-						if (! empty( $upload['tmp_name'][$i] ))
+						if ( $upload['error'][$i] !== UPLOAD_ERR_NO_FILE )
 						{
 							$array = array();
-							$array['name'] = $upload['name'][$i];
+							$array['name'] = $upload['namxe'][$i];
 							$array['type'] = $upload['type'][$i];
 							$array['tmp_name'] = $upload['tmp_name'][$i];
 							$array['error'] = $upload['error'][$i];
@@ -80,7 +80,7 @@ class UploadManager
 			{
 				// Check for empty tmp_name, can occur when user does not
 				// fill in the file input and submits the form
-				if (! empty( $upload['tmp_name'] ))
+				if ($upload['error'] !== UPLOAD_ERR_NO_FILE )
 				{
 					// single upload
 					$file = new UploadedFile( $upload );
@@ -250,7 +250,7 @@ class UploadManager
 		
 		if ($this->options->getMaxTotalSize() !== null && $this->getUploadSize() > $this->options->getMaxTotalSize())
 		{
-			throw new UploadException( "Total file size exceeds total allowed size " . FormattingUtils::formatSizeUnits( $this->options->getMaxTotalSize() ) . ". " . FormattingUtils::formatSizeUnits( $this->getUploadSize() ) . " with " . $this->files->count() . " files." );
+			throw new UploadException( "Total file size exceeds total allowed size " . FormattingUtils::formatSize( $this->options->getMaxTotalSize() ) . ". " . FormattingUtils::formatSize( $this->getUploadSize() ) . " with " . $this->files->count() . " files." );
 		}
 		
 		if ($this->options->getMaxFiles() !== null && ($this->countFiles() > $this->options->getMaxFiles()))
@@ -294,30 +294,62 @@ class UploadManager
 			throw new UploadException( "Upload dir does not exist" );
 		}
 		
+		
 		$maxSize = $this->options->getMaxSize();
 		$mimeTypes = $this->options->getMimetypes();
 		$errors = array();
 		
-		if ($maxSize !== null)
-		{
-			if ($aFile->getSize() > $maxSize)
-			{
-				$errors[] = $aFile->getOriginalFilename() . " exceeds max size. Allowed is " . FormattingUtils::formatSizeUnits( $maxSize ) . " but was " . FormattingUtils::formatSizeUnits( $aFile->getSize() );
-			}
+		// PHP system errors
+		if ($aFile->getError()){
+		    switch($aFile->getError()){
+		    	case UPLOAD_ERR_CANT_WRITE : 
+		    	    $errors[] = 'Failed to write file to disk.';
+		    	    break;
+		    	case UPLOAD_ERR_EXTENSION :
+		    	    $errors[] = 'A PHP extension stopped the file upload.';
+		    	    break;
+		    	case UPLOAD_ERR_FORM_SIZE :
+		    	    $errors[] = $aFile->getOriginalFilename() . " exceeds max size. Allowed is " . FormattingUtils::formatSize( $maxSize );
+		    	    break;
+	    	    case UPLOAD_ERR_INI_SIZE :
+	    	        $errors[] = $aFile->getOriginalFilename() . " exceeds max size. Allowed is " . FormattingUtils::formatSize( $maxSize );
+	    	        break;
+    	        case UPLOAD_ERR_NO_FILE :
+    	            $errors[] = 'No file was uploaded.';
+    	            break;
+	            case UPLOAD_ERR_NO_TMP_DIR :
+	                throw new UploadException('Missing a temporary folder.');
+	                break;
+                case UPLOAD_ERR_PARTIAL :
+                    $errors[] = 'The uploaded file was only partially uploaded. ';
+                    break;
+		    }
 		}
+		// User defined errors
+		else {
 		
-		if ($mimeTypes !== null && count($mimeTypes) > 0)
-		{
-			if (! in_array( $aFile->getMimeType(), $mimeTypes ))
-			{
-				$errors[] = $aFile->getOriginalFilename() . " is not allowed to be uploaded (" . $aFile->getMimeType() . ")";
-			}
-		}
+    		if ($maxSize !== null)
+    		{
+    			if ($aFile->getSize() > $maxSize)
+    			{
+    				$errors[] = $aFile->getOriginalFilename() . " exceeds max size. Allowed is " . FormattingUtils::formatSize( $maxSize ) . " but was " . FormattingUtils::formatSize( $aFile->getSize() );
+    			}
+    		}
+    		
+    		if ($mimeTypes !== null && count($mimeTypes) > 0)
+    		{
+    			if (! in_array( $aFile->getMimeType(), $mimeTypes ))
+    			{
+    				$errors[] = $aFile->getOriginalFilename() . " is not allowed to be uploaded (" . $aFile->getMimeType() . ")";
+    			}
+    		}
+    		
+    		// Upload dir can be null
+    		if ($this->options->getAllowOverwrite() === false && $uploadDir && $aFile->existsInDir( $uploadDir ))
+    		{
+    			$errors[] = "File " . $aFile->getOriginalFilename() . " already exists.";
+    		}
 		
-		// Upload dir can be null
-		if ($this->options->getAllowOverwrite() === false && $uploadDir && $aFile->existsInDir( $uploadDir ))
-		{
-			$errors[] = "File " . $aFile->getOriginalFilename() . " already exists.";
 		}
 		
 		// if there are errors, throw an exception
@@ -326,7 +358,7 @@ class UploadManager
 			$excString = "";
 			foreach ($errors as $error)
 			{
-				$excString = $error . "\n";
+				$excString .= $error . "\n";
 			}
 			
 			throw new UploadException( trim( $excString ) );
