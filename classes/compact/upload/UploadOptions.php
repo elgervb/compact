@@ -226,11 +226,16 @@ class UploadOptions
 	/**
 	 *
 	 * @param $uploadDir \SplFileInfo
+	 * @param $createIfNotExists create the new directory when it does not exists
 	 * 
 	 * @return UploadOptions
 	 */
-	public function setUploadDir(\SplFileInfo $uploadDir )
+	public function setUploadDir(\SplFileInfo $uploadDir, $createIfNotExists = false )
 	{
+	    if ($createIfNotExists && !$uploadDir->isDir()){
+	        mkdir($uploadDir);
+	    }
+	    
 		$this->uploadDir = $uploadDir;
 		return $this;
 	}
