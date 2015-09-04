@@ -233,7 +233,7 @@ class UploadOptions
 	public function setUploadDir(\SplFileInfo $uploadDir, $createIfNotExists = false )
 	{
 	    if ($createIfNotExists && !$uploadDir->isDir()){
-	        mkdir($uploadDir);
+	        mkdir($uploadDir, 0755, true);
 	    }
 	    
 		$this->uploadDir = $uploadDir;
