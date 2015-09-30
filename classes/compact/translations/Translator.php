@@ -29,8 +29,17 @@ class Translator
 		}
 		
 		self::$instance = $this;
-		$this->bundles = new \ArrayObject();
 		$this->setLanguage( $aLanguage );
+		
+		$this->bundles = new \ArrayObject();
+		
+		// add system default
+		$bundleName = "Translations_".strtoupper($aLanguage);
+		$bundle = __DIR__ . '/bundle/impl/'.$bundleName.'.php';
+		if (is_file($bundle)){
+			$bundleClass = 'compact\\translations\\bundle\\impl\\'.$bundleName;
+			$this->addBundle(new $bundleClass());
+		}
 	}
 	
 	/**
