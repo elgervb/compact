@@ -42,7 +42,7 @@ class ModelFieldsNotNullValidator extends ModelValidator
 		$result = "";
 		foreach ($this->fields as $field)
 		{
-			if ($aModel->$field === null || ( !is_bool($aModel->$field) && trim( $aModel->$field ) === ""))
+			if ($aModel->$field === null || ( is_string($aModel->$field) && trim( $aModel->$field ) === ""))
 			{
 				$result .= Translator::translate(ITranslationBundle::ERR_VAL_FIELD_NOT_EMPTY, Translator::translate($field)) . "\n";
 			}
