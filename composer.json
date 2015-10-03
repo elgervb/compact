@@ -1,0 +1,10 @@
+{
+	"name" : "Compact PHP Framework",
+	"description" : "Compact PHP Framework",
+	"type" : "framework",
+	"autoload" : {
+		"psr-0" : {
+			"compact" : "classes/compact"
+		}
+	}
+}
