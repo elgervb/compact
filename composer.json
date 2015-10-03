@@ -1,5 +1,5 @@
 {
-	"name" : "Compact PHP Framework",
+	"name" : "elgervb/compact",
 	"description" : "Compact PHP Framework",
 	"type" : "framework",
 	"autoload" : {
