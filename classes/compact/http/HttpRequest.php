@@ -41,7 +41,7 @@ class HttpRequest
         $this->filters = new \ArrayObject();
         
         // support other HTTP methods (like PUT or patch) and other content types
-        if ('application/json' === $this->getContentType()) {
+        if ( preg_match('/application\/json/i', $this->getContentType()) ) {
             $this->data = json_decode(file_get_contents("php://input"), true);
         } else {
             parse_str(file_get_contents("php://input"), $data);
@@ -154,6 +154,9 @@ class HttpRequest
     public function getContentType()
     {
         $result = $this->server("CONTENT_TYPE");
+        if (!$result){
+        	$result = $this->server("HTTP_CONTENT_TYPE");
+        }
         if (stristr($result, ";")) {
             $parts = explode(";", $result);
             return $parts[0];
