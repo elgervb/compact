@@ -139,11 +139,16 @@ class ViewModel extends TemplateView
      * @param string $aContent            
      *
      * @return string the new content
+     * 
+     * @example
+     * {var1}
+     * {obj.prop}
+     * 
      */
-    private function replaceVars($aContent)
+	private function replaceVars($aContent)
     {
         $viewmodel = $this;
-        return preg_replace_callback("/{([a-z0-9]+)}/Ui", function ($match) use($viewmodel)
+        return preg_replace_callback("/{([a-z0-9\.]+)}/Ui", function ($match) use($viewmodel)
         {
             // echo '<pre>';print_r($viewmodel);echo'</pre>';
             $var = $match[1];
@@ -157,7 +162,8 @@ class ViewModel extends TemplateView
                         $method = preg_replace("/\(\)/", "", $parts[1]);
                         $result = $obj->{$method}();
                     } else {
-                        $result = $viewmodel->{$parts[count($parts) - 1]};
+                    	$objProp = $parts[1];
+                        $result = $obj->{$objProp};
                     }
                 
                 return $result;
